@@ -161,9 +161,20 @@ function ListDetailContent() {
       */}
 
       {/* no item is created yet */}
-      {state === "ready" && data?.splitCardList?.length === 0 ? (
+      {state === "ready" && data?.itemList?.length === 0 ? (
         <Row>
-          <SplitCardBlank onCreateFormClose={() => setItemFormData({})} />
+          <p>There are no items yet...</p>
+          <Col sm="12" className="my-2">
+            <Button
+              variant="success"
+              className="w-100 text-start"
+              disabled={state === "pending"}
+              onClick={() => setItemFormData({})}
+            >
+              Create new note
+            </Button>
+          </Col>
+          {/*<SplitCardBlank onCreateFormClose={() => setItemFormData({})} />*/}
         </Row>
       ) : null}
     </Container>
