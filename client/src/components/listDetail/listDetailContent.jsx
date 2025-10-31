@@ -16,11 +16,12 @@ import SplitCardUI from "./splitCardUI";
 import ItemForm from "./itemForm";
 import ItemFormDelete from "./itemFormDelete";
 import SplitCardBlank from "./splitCard-blank";
-import SplitCardConfig from "./splitCard-config";
+import ListDetailConfig from "./listDetailConfig";
 import SplitCardBar from "./splitCard-bar";
 import ItemUI from "./itemUI";
 import ItemFilterConfig from "./itemFilterConfig";
 import ItemCounter from "./ItemCounter";
+import { mdiCog } from "@mdi/js";
 
 function ListDetailContent() {
   const { state, data, filter } = useContext(listDetailContext);
@@ -52,12 +53,7 @@ function ListDetailContent() {
   return (
     <Container>
       {!!showConfig ? (
-        <SplitCardConfig
-          onClose={() => setShowConfig(false)}
-          setSplitCardFormData={setItemFormData}
-          setSplitCardDeleteFormData={setSplitCardDeleteFormData}
-          currentCard={data?.splitCardList[currentCardIndex]}
-        />
+        <ListDetailConfig onClose={() => setShowConfig(false)} />
       ) : null}
 
       {!!itemFormData ? (
@@ -86,6 +82,15 @@ function ListDetailContent() {
           disabled={state === "pending"}
         >
           <Icon path={mdiSort} size={1} />
+        </Button>
+
+        <Button
+          variant="success"
+          onClick={() => setShowConfig(true)}
+          className="mx-2"
+          disabled={state === "pending"}
+        >
+          <Icon path={mdiCog} size={1} />
         </Button>
       </Col>
 

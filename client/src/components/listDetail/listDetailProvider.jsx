@@ -41,6 +41,16 @@ function ListDetailProvider({ children, listID }) {
             name: "Alastor Moody",
             email: "alastor.moody@gmail.com",
           },
+                    {
+            _id: "671f4b2f9a8e7c1234560004",
+            name: "Percy Weasley",
+            email: "percy.Weasley@gmail.com",
+          },
+                    {
+            _id: "671f4b2f9a8e7c1234560005",
+            name: "Minerva McGonagall",
+            email: "alastor.moody@gmail.com",
+          },
         ],
         itemList: [
           {
