@@ -159,27 +159,42 @@ function ListDetailProvider({ children, listID }) {
   }
 
   async function handleDelete(dtoIn) {
+    const id = dtoIn._id ?? dtoIn.id;
+    // mark pending
     setListDetailDto((current) => {
-      return { ...current, state: "pending", pendingId: dtoIn.id };
+      return { ...current, state: "pending", pendingId: id };
     });
-    const result = await FetchHelper.item.delete(dtoIn);
+
+    // update only on FE (no network call)
     setListDetailDto((current) => {
-      if (result.ok) {
-        const itemIndex = current.data.itemList.findIndex(
-          (item) => item.id === dtoIn.id
-        );
-        current.data.itemList.splice(itemIndex, 1);
-        return {
-          ...current,
-          state: "ready",
-          data: { ...current.data, itemList: current.data.itemList.slice() },
-          error: null,
-        };
-      } else {
-        return { ...current, state: "error", error: result.data };
+      if (!current.data || !Array.isArray(current.data.itemList)) {
+        return { ...current, state: "ready", pendingId: undefined };
       }
+
+      const itemIndex = current.data.itemList.findIndex(
+        (item) => item._id === id || item.id === id
+      );
+
+      if (itemIndex === -1) {
+        // item not found -> clear pending
+        return { ...current, state: "ready", pendingId: undefined };
+      }
+
+      // create a new array and delete the found item
+      const newItemList = current.data.itemList.slice();
+      newItemList.splice(itemIndex, 1);
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, itemList: newItemList },
+        error: null,
+        pendingId: undefined,
+      };
     });
-    return { ok: result.ok, error: result.ok ? undefined : result.data };
+
+    // simulate successful result for caller
+    return { ok: true };
   }
 
   // key: "checked" | "unchecked"

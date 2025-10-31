@@ -20,13 +20,13 @@ function SplitCardDeleteForm({
   return (
     <Modal show={true} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete splitCard</Modal.Title>
+        <Modal.Title>Delete item</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {!!errorState?.message ? (
           <Alert variant={"danger"}>{errorState.message}</Alert>
         ) : null}
-        Do you really want to delete splitCard <b>{item.title}</b>
+        Do you really want to delete item <b>{item.title}</b>
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -40,14 +40,8 @@ function SplitCardDeleteForm({
           variant="danger"
           disabled={state === "pending"}
           onClick={async () => {
-            const result = await handlerMap.handleDelete({ id: item.id });
+            const result = await handlerMap.handleDelete({ id: item._id });
             if (result.ok) {
-              if (isLastCard) {
-                switchToPrevCard();
-              }
-              setSplitCardStates();
-              delCardTextSegments();
-
               onClose();
             } else {
               setErrorState(result.error);

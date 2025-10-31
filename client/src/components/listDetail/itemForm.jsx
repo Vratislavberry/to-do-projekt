@@ -3,16 +3,12 @@ import { useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 
 import { listDetailContext } from "./listDetailProvider";
 
-function SplitCardForm({
-  item,
-  onClose,
-}) {
+function SplitCardForm({ item, onClose, setItemFormDeleteData }) {
   const { state, data, handlerMap } = useContext(listDetailContext);
-
-  
 
   return (
     <Modal show={true} onHide={onClose}>
@@ -29,7 +25,10 @@ function SplitCardForm({
 
           let result = null;
           if (item._id) {
-            result = await handlerMap.handleUpdate({ ...values, _id: item._id });
+            result = await handlerMap.handleUpdate({
+              ...values,
+              _id: item._id,
+            });
           } else {
             result = await handlerMap.handleCreate({ ...values });
           }
@@ -52,21 +51,40 @@ function SplitCardForm({
             maxLength={100}
           />
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={onClose}
-            disabled={state === "pending"}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={state === "pending"}
-          >
-            {item?._id ? "Update" : "Create"}
-          </Button>
+
+        <Modal.Footer className="d-flex justify-content-between">
+          <Col>
+            {item._id ? (
+              <Button
+                className="self-align-start"
+                variant="danger"
+                onClick={() => {
+                  setItemFormDeleteData(item);
+                  onClose();
+                }}
+                disabled={state === "pending"}
+              >
+                Delete
+              </Button>
+            ) : null}
+          </Col>
+          <Col className="d-flex justify-content-end">
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              disabled={state === "pending"}
+              className="mx-2"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={state === "pending"}
+            >
+              {item?._id ? "Update" : "Create"}
+            </Button>
+          </Col>
         </Modal.Footer>
       </Form>
     </Modal>

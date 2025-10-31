@@ -14,7 +14,7 @@ import { listDetailContext } from "./listDetailProvider";
 import PendingItem from "../pending-item";
 import SplitCardUI from "./splitCardUI";
 import ItemForm from "./itemForm";
-import SplitCardDeleteForm from "./splitCard-delete-form";
+import ItemFormDelete from "./itemFormDelete";
 import SplitCardBlank from "./splitCard-blank";
 import SplitCardConfig from "./splitCard-config";
 import SplitCardBar from "./splitCard-bar";
@@ -28,7 +28,7 @@ function ListDetailContent() {
   const [showConfig, setShowConfig] = useState(false);
   const [showFilterConfig, setShowFilterConfig] = useState(false);
   const [itemFormData, setItemFormData] = useState();
-  const [SplitCardDeleteFormData, setSplitCardDeleteFormData] = useState();
+  const [itemFormDeleteData, setItemFormDeleteData] = useState();
   const [SplitCardStates, setSplitCardStates] = useState();
   const [textSegmentsList, setTextSegmentsList] = useState([]);
 
@@ -61,25 +61,17 @@ function ListDetailContent() {
       ) : null}
 
       {!!itemFormData ? (
-        <ItemForm item={itemFormData} onClose={() => setItemFormData()} />
+        <ItemForm
+          item={itemFormData}
+          onClose={() => setItemFormData()}
+          setItemFormDeleteData={setItemFormDeleteData}
+        />
       ) : null}
 
-      {!!SplitCardDeleteFormData ? (
-        <SplitCardDeleteForm
-          item={SplitCardDeleteFormData}
-          onClose={() => setSplitCardDeleteFormData()}
-          isLastCard={data?.splitCardList?.length - 1 === currentCardIndex}
-          switchToPrevCard={() => setCurrentCardIndex(currentCardIndex - 1)}
-          setSplitCardStates={() =>
-            setSplitCardStates(
-              SplitCardStates.filter((_, i) => i !== currentCardIndex)
-            )
-          }
-          delCardTextSegments={() =>
-            setTextSegmentsList(
-              textSegmentsList.filter((_, i) => i !== currentCardIndex)
-            )
-          }
+      {!!itemFormDeleteData ? (
+        <ItemFormDelete
+          item={itemFormDeleteData}
+          onClose={() => setItemFormDeleteData()}
         />
       ) : null}
 
