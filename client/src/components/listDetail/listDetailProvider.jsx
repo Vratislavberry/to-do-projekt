@@ -79,26 +79,44 @@ function ListDetailProvider({ children, listID }) {
   }, []);
 
   async function handleCreate(dtoIn) {
+    // mark pending
     setListDetailDto((current) => {
       return { ...current, state: "pending" };
     });
-    const result = await FetchHelper.item.create(dtoIn);
+
+    // create only on FE (no network call)
+    // create newItem here so we can return it to caller
+    const newId = Math.random().toString(36).substring(2, 9);
+    // ensure the item has a state so filtering shows it (default to unchecked)
+    const newItem = { ...dtoIn, _id: newId, state: dtoIn.state ?? "unchecked" };
+
     setListDetailDto((current) => {
-      if (result.ok) {
-        current.data.itemList.push(result.data);
-        // returns deep copy of current
+      // if no data or no itemList yet, initialize it
+      if (!current.data || !Array.isArray(current.data.itemList)) {
         return {
-          ...current, // Keeps all existing properties
-          state: "ready", // Updates the state property
-          // Updates the data property
-          data: { ...current.data, itemList: current.data.itemList.slice() },
-          error: null, // Resets the error property
+          ...current,
+          state: "ready",
+          data: { ...(current.data || {}), itemList: [newItem] },
+          error: null,
+          ok: true,
         };
-      } else {
-        return { ...current, state: "error", error: result.data };
       }
+
+      // create a new array and add the new item
+      const newItemList = current.data.itemList.slice();
+      newItemList.push(newItem);
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, itemList: newItemList },
+        error: null,
+        ok: true, // Normally would come from backend response
+      };
     });
-    return { ok: result.ok, error: result.ok ? undefined : result.data };
+
+    // return simulated backend response
+    return { ok: true, data: newItem };
   }
 
   async function handleUpdate(dtoIn) {
@@ -135,6 +153,9 @@ function ListDetailProvider({ children, listID }) {
         pendingId: undefined,
       };
     });
+
+    // simulate successful result for caller
+    return { ok: true };
   }
 
   async function handleDelete(dtoIn) {
@@ -173,7 +194,13 @@ function ListDetailProvider({ children, listID }) {
   const value = {
     ...listDetailDto,
     listID,
-    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete, handleFilterChange },
+    handlerMap: {
+      handleLoad,
+      handleCreate,
+      handleUpdate,
+      handleDelete,
+      handleFilterChange,
+    },
   };
 
   return (

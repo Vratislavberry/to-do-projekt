@@ -13,7 +13,7 @@ import { mdiSort } from "@mdi/js";
 import { listDetailContext } from "./listDetailProvider";
 import PendingItem from "../pending-item";
 import SplitCardUI from "./splitCardUI";
-import SplitCardForm from "./splitCard-form";
+import ItemForm from "./itemForm";
 import SplitCardDeleteForm from "./splitCard-delete-form";
 import SplitCardBlank from "./splitCard-blank";
 import SplitCardConfig from "./splitCard-config";
@@ -27,7 +27,7 @@ function ListDetailContent() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showConfig, setShowConfig] = useState(false);
   const [showFilterConfig, setShowFilterConfig] = useState(false);
-  const [SplitCardFormData, setSplitCardFormData] = useState();
+  const [itemFormData, setItemFormData] = useState();
   const [SplitCardDeleteFormData, setSplitCardDeleteFormData] = useState();
   const [SplitCardStates, setSplitCardStates] = useState();
   const [textSegmentsList, setTextSegmentsList] = useState([]);
@@ -54,29 +54,14 @@ function ListDetailContent() {
       {!!showConfig ? (
         <SplitCardConfig
           onClose={() => setShowConfig(false)}
-          setSplitCardFormData={setSplitCardFormData}
+          setSplitCardFormData={setItemFormData}
           setSplitCardDeleteFormData={setSplitCardDeleteFormData}
           currentCard={data?.splitCardList[currentCardIndex]}
         />
       ) : null}
 
-      {!!SplitCardFormData ? (
-        <SplitCardForm
-          item={SplitCardFormData}
-          switchToNewCard={() => {
-            setCurrentCardIndex(data?.splitCardList?.length);
-            setSplitCardStates([...(SplitCardStates || []), "visited"]);
-            setTextSegmentsList([...(textSegmentsList || []), []]);
-          }}
-          onClose={() => setSplitCardFormData()}
-          resetTextSegmentItem={() =>
-            setTextSegmentsList(
-              textSegmentsList.map((item, i) =>
-                i !== currentCardIndex ? item : []
-              )
-            )
-          }
-        />
+      {!!itemFormData ? (
+        <ItemForm item={itemFormData} onClose={() => setItemFormData()} />
       ) : null}
 
       {!!SplitCardDeleteFormData ? (
@@ -120,9 +105,24 @@ function ListDetailContent() {
 
           {data.itemList.map((item) =>
             filter[item.state] ? (
-              <ItemUI key={item._id} item={item} setItemFormData={() => {}} />
+              <ItemUI
+                key={item._id}
+                item={item}
+                setItemFormData={setItemFormData}
+              />
             ) : null
           )}
+
+          <Col sm="12" className="my-2">
+            <Button
+              variant="success"
+              className="w-100 text-start"
+              disabled={state === "pending"}
+              onClick={() => setItemFormData({})}
+            >
+              Create new note
+            </Button>
+          </Col>
         </Row>
       ) : null}
 
@@ -171,7 +171,7 @@ function ListDetailContent() {
       {/* no item is created yet */}
       {state === "ready" && data?.splitCardList?.length === 0 ? (
         <Row>
-          <SplitCardBlank onCreateFormClose={() => setSplitCardFormData({})} />
+          <SplitCardBlank onCreateFormClose={() => setItemFormData({})} />
         </Row>
       ) : null}
     </Container>

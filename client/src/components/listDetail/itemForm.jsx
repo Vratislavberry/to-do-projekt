@@ -9,19 +9,10 @@ import { listDetailContext } from "./listDetailProvider";
 function SplitCardForm({
   item,
   onClose,
-  switchToNewCard,
-  resetTextSegmentItem,
 }) {
-  const { state, data, handlerMap, groupId } = useContext(listDetailContext);
+  const { state, data, handlerMap } = useContext(listDetailContext);
 
   
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
 
   return (
     <Modal show={true} onHide={onClose}>
@@ -36,32 +27,19 @@ function SplitCardForm({
           // extracts data from Modal form
           const values = Object.fromEntries(formData);
 
-          // set current date in form data in format YYYY-MM-DD
-          values.date = getCurrentDate();
-          // set groupId in form data
-          values.groupId = groupId;
-
           let result = null;
-          if (item.id) {
-            result = await handlerMap.handleUpdate({ ...values, id: item.id });
+          if (item._id) {
+            result = await handlerMap.handleUpdate({ ...values, _id: item._id });
           } else {
             result = await handlerMap.handleCreate({ ...values });
           }
-
           if (result.ok) {
-            // If we created a new card, switch to it
-            if (!item.id) {
-              switchToNewCard();
-            }
-            if (item?.id) {
-              resetTextSegmentItem();
-            }
             onClose();
           }
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{item?.id ? "Update" : "Add"} SplitCard</Modal.Title>
+          <Modal.Title>{item?._id ? "Update" : "Add"} Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Label>Title *</Form.Label>
@@ -73,19 +51,6 @@ function SplitCardForm({
             required
             maxLength={100}
           />
-
-          <Form.Label>Question text *</Form.Label>
-          <Form.Control
-            type="text"
-            name="questionText"
-            disabled={state === "pending"}
-            defaultValue={item?.questionText}
-            required
-            maxLength={250}
-          />
-          <Form.Text className="text-muted text-center">
-            * SplitCard pieces are separated via ";"
-          </Form.Text>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -100,7 +65,7 @@ function SplitCardForm({
             type="submit"
             disabled={state === "pending"}
           >
-            {item?.id ? "Update" : "Create"}
+            {item?._id ? "Update" : "Create"}
           </Button>
         </Modal.Footer>
       </Form>
