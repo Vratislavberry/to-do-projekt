@@ -102,19 +102,25 @@ function ListDetailContent() {
       ) : null}
 
       <Col className="d-flex justify-content-end my-2">
-          <Button
-            variant="success"
-            onClick={() => setShowFilterConfig(true)}
-            disabled={state === "pending"}
-          >
-            <Icon path={mdiSort} size={1} />
-          </Button>
-        </Col>
+        <Button
+          variant="success"
+          onClick={() => setShowFilterConfig(true)}
+          disabled={state === "pending"}
+        >
+          <Icon path={mdiSort} size={1} />
+        </Button>
+      </Col>
 
       {state === "pending" ? <PendingItem /> : null}
 
       {state === "ready" && data?.itemList?.length > 0 ? (
         <Row>
+          <p>
+            {data.itemList.reduce(
+              (accum, item) => (item.state == "checked" ? accum + 1 : accum),
+              0
+            )} / {data.itemList.length} items checked
+          </p>
           {data.itemList.map((item) =>
             filter[item.state] ? (
               <ItemUI key={item._id} item={item} setItemFormData={() => {}} />

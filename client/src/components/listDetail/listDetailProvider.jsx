@@ -49,6 +49,11 @@ function ListDetailProvider({ children, listID }) {
             state: "unchecked",
           },
           {
+            _id: "671f4b2f9a8e7c1234561003",
+            title: "Mrkve - 5ks",
+            state: "unchecked",
+          },
+          {
             _id: "671f4b2f9a8e7c1234561002",
             title: "Mléko - 2l",
             state: "checked",
@@ -160,13 +165,10 @@ function ListDetailProvider({ children, listID }) {
   // key: "checked" | "unchecked"
   // value: boolen
   async function handleFilterChange(key, value) {
-    console.log(`zmenil se filtr ${key} na ${value}`);
-    console.log(listDetailDto);
     setListDetailDto((current) => ({
       ...current,
       filter: { ...current.filter, [key]: value },
     }));
-    console.log(listDetailDto);
   }
 
   const value = {
