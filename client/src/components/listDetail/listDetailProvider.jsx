@@ -9,6 +9,7 @@ function ListDetailProvider({ children, listID }) {
     state: "ready", // one of ready/pending/error
     data: null,
     error: null,
+    filter: { checked: false, unchecked: true },
   });
 
   async function handleLoad(dtoIn) {
@@ -121,7 +122,7 @@ function ListDetailProvider({ children, listID }) {
       const newItemList = current.data.itemList.slice();
       newItemList[itemIndex] = { ...newItemList[itemIndex], ...dtoIn };
 
-      console.log({ ...current.data, itemList: newItemList },)
+      console.log({ ...current.data, itemList: newItemList });
       return {
         ...current,
         state: "ready",
@@ -156,10 +157,22 @@ function ListDetailProvider({ children, listID }) {
     return { ok: result.ok, error: result.ok ? undefined : result.data };
   }
 
+  // key: "checked" | "unchecked"
+  // value: boolen
+  async function handleFilterChange(key, value) {
+    console.log(`zmenil se filtr ${key} na ${value}`);
+    console.log(listDetailDto);
+    setListDetailDto((current) => ({
+      ...current,
+      filter: { ...current.filter, [key]: value },
+    }));
+    console.log(listDetailDto);
+  }
+
   const value = {
     ...listDetailDto,
     listID,
-    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete },
+    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete, handleFilterChange },
   };
 
   return (
