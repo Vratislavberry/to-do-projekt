@@ -20,6 +20,7 @@ import SplitCardConfig from "./splitCard-config";
 import SplitCardBar from "./splitCard-bar";
 import ItemUI from "./itemUI";
 import ItemFilterConfig from "./itemFilterConfig";
+import ItemCounter from "./ItemCounter";
 
 function ListDetailContent() {
   const { state, data, filter } = useContext(listDetailContext);
@@ -115,12 +116,8 @@ function ListDetailContent() {
 
       {state === "ready" && data?.itemList?.length > 0 ? (
         <Row>
-          <p>
-            {data.itemList.reduce(
-              (accum, item) => (item.state == "checked" ? accum + 1 : accum),
-              0
-            )} / {data.itemList.length} items checked
-          </p>
+          <ItemCounter />
+
           {data.itemList.map((item) =>
             filter[item.state] ? (
               <ItemUI key={item._id} item={item} setItemFormData={() => {}} />
@@ -128,6 +125,7 @@ function ListDetailContent() {
           )}
         </Row>
       ) : null}
+
       {/*
         <Row>
           <SplitCardBar

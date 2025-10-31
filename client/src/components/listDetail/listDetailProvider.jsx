@@ -127,7 +127,6 @@ function ListDetailProvider({ children, listID }) {
       const newItemList = current.data.itemList.slice();
       newItemList[itemIndex] = { ...newItemList[itemIndex], ...dtoIn };
 
-      console.log({ ...current.data, itemList: newItemList });
       return {
         ...current,
         state: "ready",
