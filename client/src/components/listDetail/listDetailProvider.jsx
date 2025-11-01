@@ -22,7 +22,7 @@ function ListDetailProvider({ children, listID }) {
     // 1 list with its items & members
     const result = {
       ok: true,
-      curUserId: "671f4b2f9a8e7c1234560002", // change current user here for testing
+      curUserId: "671f4b2f9a8e7c1234560001", // change current user here for testing
       data: {
         _id: "671f4b2f9a8e7c1234567890",
         title: "Grocery Checklist",
@@ -224,9 +224,6 @@ function ListDetailProvider({ children, listID }) {
   }
 
   async function handleListUpdate(dtoIn) {
-    console.log("here");
-    console.log(dtoIn);
-    console.log(dtoIn.title);
     // mark pending
     setListDetailDto((current) => {
       return { ...current, state: "pending" };

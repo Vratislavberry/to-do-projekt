@@ -12,12 +12,9 @@ import { mdiSort } from "@mdi/js";
 
 import { listDetailContext } from "./listDetailProvider";
 import PendingItem from "../pending-item";
-import SplitCardUI from "./splitCardUI";
 import ItemForm from "./itemForm";
 import ItemFormDelete from "./itemFormDelete";
-import SplitCardBlank from "./splitCard-blank";
 import ListDetailConfig from "./listDetailConfig";
-import SplitCardBar from "./splitCard-bar";
 import ItemUI from "./itemUI";
 import ItemFilterConfig from "./itemFilterConfig";
 import ItemCounter from "./ItemCounter";
@@ -25,13 +22,10 @@ import { mdiCog } from "@mdi/js";
 
 function ListDetailContent() {
   const { state, data, filter } = useContext(listDetailContext);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showConfig, setShowConfig] = useState(false);
   const [showFilterConfig, setShowFilterConfig] = useState(false);
   const [itemFormData, setItemFormData] = useState();
   const [itemFormDeleteData, setItemFormDeleteData] = useState();
-  const [SplitCardStates, setSplitCardStates] = useState();
-  const [textSegmentsList, setTextSegmentsList] = useState([]);
 
   // when data is ready, initialize SplitCardStates
   // with "current" for the first card and "unvisited" for the rest
@@ -125,48 +119,6 @@ function ListDetailContent() {
         </Row>
       ) : null}
 
-      {/*
-        <Row>
-          <SplitCardBar
-            splitCardStates={SplitCardStates}
-            currentCardIndex={currentCardIndex}
-            setCurrentCardIndex={setCurrentCardIndex}
-          />
-          <SplitCardUI
-            cardIndex={currentCardIndex}
-            setCardIndex={setCurrentCardIndex}
-            card={data?.splitCardList[currentCardIndex]}
-            numOfCards={data?.splitCardList?.length}
-            setShowConfig={setShowConfig}
-            cardStateSaved={SplitCardStates?.[currentCardIndex]}
-            changeCardState={(state) =>
-              setSplitCardStates(
-                SplitCardStates?.map((prevState, i) => {
-                  if (i === currentCardIndex) {
-                    return state;
-                  } else {
-                    return prevState;
-                  }
-                })
-              )
-            }
-            textSegmentsSaved={textSegmentsList[currentCardIndex]}
-            updateTextSegments={(updSegments) => {
-              setTextSegmentsList(
-                textSegmentsList.map((item, i) => {
-                  if (i === currentCardIndex) {
-                    return updSegments;
-                  } else {
-                    return item;
-                  }
-                })
-              );
-            }}
-          />
-        </Row>
-      ) : null}
-      */}
-
       {/* no item is created yet */}
       {state === "ready" && data?.itemList?.length === 0 ? (
         <Row>
@@ -181,7 +133,6 @@ function ListDetailContent() {
               Create new note
             </Button>
           </Col>
-          {/*<SplitCardBlank onCreateFormClose={() => setItemFormData({})} />*/}
         </Row>
       ) : null}
     </Container>
