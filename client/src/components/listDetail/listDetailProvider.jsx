@@ -41,12 +41,12 @@ function ListDetailProvider({ children, listID }) {
             name: "Alastor Moody",
             email: "alastor.moody@gmail.com",
           },
-                    {
+          {
             _id: "671f4b2f9a8e7c1234560004",
             name: "Percy Weasley",
             email: "percy.Weasley@gmail.com",
           },
-                    {
+          {
             _id: "671f4b2f9a8e7c1234560005",
             name: "Minerva McGonagall",
             email: "alastor.moody@gmail.com",
@@ -216,6 +216,29 @@ function ListDetailProvider({ children, listID }) {
     }));
   }
 
+  async function handleListUpdate(dtoIn) {
+    console.log("here");
+    console.log(dtoIn);
+    console.log(dtoIn.title);
+    // mark pending
+    setListDetailDto((current) => {
+      return { ...current, state: "pending"};
+    });
+
+    // update only on FE (no network call)
+    setListDetailDto((current) => {
+      return {
+        ...current,
+        state: "ready",
+        error: null,
+        data: { ...current.data, title: dtoIn.title },
+      };
+    });
+
+    // simulate successful result for caller
+    return { ok: true };
+  }
+
   const value = {
     ...listDetailDto,
     listID,
@@ -225,6 +248,7 @@ function ListDetailProvider({ children, listID }) {
       handleUpdate,
       handleDelete,
       handleFilterChange,
+      handleListUpdate,
     },
   };
 

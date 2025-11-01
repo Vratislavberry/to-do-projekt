@@ -75,6 +75,8 @@ function ListDetailContent() {
         <ItemFilterConfig onClose={() => setShowFilterConfig(false)} />
       ) : null}
 
+      <h1 className="display-4 text-center">{data?.title}</h1>
+
       <Col className="d-flex justify-content-end my-2">
         <Button
           variant="success"
