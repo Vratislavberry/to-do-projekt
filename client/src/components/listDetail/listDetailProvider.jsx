@@ -222,7 +222,7 @@ function ListDetailProvider({ children, listID }) {
     console.log(dtoIn.title);
     // mark pending
     setListDetailDto((current) => {
-      return { ...current, state: "pending"};
+      return { ...current, state: "pending" };
     });
 
     // update only on FE (no network call)
@@ -232,6 +232,45 @@ function ListDetailProvider({ children, listID }) {
         state: "ready",
         error: null,
         data: { ...current.data, title: dtoIn.title },
+      };
+    });
+
+    // simulate successful result for caller
+    return { ok: true };
+  }
+
+  async function handleMemberDelete(dtoIn) {
+    const id = dtoIn._id ?? dtoIn.id;
+    // mark pending
+    setListDetailDto((current) => {
+      return { ...current, state: "pending", pendingId: id };
+    });
+
+    // update only on FE (no network call)
+    setListDetailDto((current) => {
+      if (!current.data || !Array.isArray(current.data.memberList)) {
+        return { ...current, state: "ready", pendingId: undefined };
+      }
+
+      const memberIndex = current.data.memberList.findIndex(
+        (item) => item._id === id || item.id === id
+      );
+
+      if (memberIndex === -1) {
+        // item not found -> clear pending
+        return { ...current, state: "ready", pendingId: undefined };
+      }
+
+      // create a new array and delete the found item
+      const newMemberList = current.data.memberList.slice();
+      newMemberList.splice(memberIndex, 1);
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, memberList: newMemberList },
+        error: null,
+        pendingId: undefined,
       };
     });
 
@@ -249,6 +288,7 @@ function ListDetailProvider({ children, listID }) {
       handleDelete,
       handleFilterChange,
       handleListUpdate,
+      handleMemberDelete,
     },
   };
 
