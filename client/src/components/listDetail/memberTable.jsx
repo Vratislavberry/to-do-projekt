@@ -4,13 +4,13 @@ import { Table, Button } from "react-bootstrap";
 import { listDetailContext } from "./listDetailProvider";
 
 function MemberTable({ onClose }) {
-  const { state, data, handlerMap } = useContext(listDetailContext);
+  const { state, data, handlerMap, curUserId } = useContext(listDetailContext);
   return (
     <Table responsive hover>
       <thead className="sticky-top">
         <tr>
           <th>Members</th>
-          {data?.owner?._id === "671f4b2f9a8e7c1234560001" && <th>Delete</th>}
+          <th>Remove</th>
         </tr>
       </thead>
 
@@ -18,7 +18,7 @@ function MemberTable({ onClose }) {
         {data?.memberList.map((member) => (
           <tr key={member._id}>
             <td>{member.name} </td>
-            {data?.owner?._id === "671f4b2f9a8e7c1234560001" && (
+            {data?.owner?._id === curUserId || member._id === curUserId ? (
               <td>
                 <Button
                   onClick={async () => {
@@ -39,6 +39,8 @@ function MemberTable({ onClose }) {
                   Remove
                 </Button>
               </td>
+            ) : (
+              <td></td>
             )}
           </tr>
         ))}

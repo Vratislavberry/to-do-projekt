@@ -7,7 +7,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Button from "react-bootstrap/Button";
 
 function ListDetailConfig({ onClose }) {
-  const { state, data } = useContext(listDetailContext);
+  const { state, data, curUserId } = useContext(listDetailContext);
   return (
     // set height on the Offcanvas element itself
     <Offcanvas
@@ -23,9 +23,10 @@ function ListDetailConfig({ onClose }) {
       <Offcanvas.Body className="overflow-auto">
         <p>
           Owner: {data?.owner?.name}{" "}
-          {data?.owner?._id === "671f4b2f9a8e7c1234560001" && "(you)"}
+          {data?.owner?._id === curUserId && "(you)"}
         </p>
-        <ListTitleForm />
+
+        {data?.owner?._id === curUserId && <ListTitleForm />}
         <MemberTable />
       </Offcanvas.Body>
     </Offcanvas>

@@ -22,6 +22,7 @@ function ListDetailProvider({ children, listID }) {
     // 1 list with its items & members
     const result = {
       ok: true,
+      curUserId: "671f4b2f9a8e7c1234560002", // change current user here for testing
       data: {
         _id: "671f4b2f9a8e7c1234567890",
         title: "Grocery Checklist",
@@ -76,7 +77,13 @@ function ListDetailProvider({ children, listID }) {
     }; //--- MOCKUP ---
     setListDetailDto((current) => {
       if (result.ok) {
-        return { ...current, state: "ready", data: result.data, error: null };
+        return {
+          ...current,
+          state: "ready",
+          data: result.data,
+          curUserId: result.curUserId,
+          error: null,
+        };
       } else {
         return { ...current, state: "error", error: result.data };
       }
