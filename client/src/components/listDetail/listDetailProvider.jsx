@@ -185,6 +185,7 @@ function ListDetailProvider({ children, listID }) {
           {
             ok: true,
             curUserId: location.state.curUser._id,
+            curUserName: location.state.curUser.name,
             data: {
               ...location.state.list,
               itemList: [],
@@ -195,6 +196,7 @@ function ListDetailProvider({ children, listID }) {
         : {
             ok: true,
             curUserId: location.state.curUser._id, // change current user here for testing
+            curUserName: location.state.curUser.name,
             data: curList,
           };
     //--- MOCKUP ---
@@ -206,6 +208,7 @@ function ListDetailProvider({ children, listID }) {
           state: "ready",
           data: result.data,
           curUserId: result.curUserId,
+          curUserName: result.curUserName,
           error: null,
         };
       } else {

@@ -19,9 +19,10 @@ import ItemUI from "./itemUI";
 import ItemFilterConfig from "./itemFilterConfig";
 import ItemCounter from "./ItemCounter";
 import { mdiCog } from "@mdi/js";
+import UserProfile from "../userProfile";
 
 function ListDetailContent() {
-  const { state, data, filter } = useContext(listDetailContext);
+  const { state, data, filter, curUserName } = useContext(listDetailContext);
   const [showConfig, setShowConfig] = useState(false);
   const [showFilterConfig, setShowFilterConfig] = useState(false);
   const [itemFormData, setItemFormData] = useState();
@@ -68,6 +69,9 @@ function ListDetailContent() {
       {!!showFilterConfig ? (
         <ItemFilterConfig onClose={() => setShowFilterConfig(false)} />
       ) : null}
+
+
+      <UserProfile name={curUserName || ""}/>
 
       <h1 className="display-4 text-center">{data?.title}</h1>
 

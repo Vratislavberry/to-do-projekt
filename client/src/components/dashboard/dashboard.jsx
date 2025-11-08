@@ -7,7 +7,6 @@ function Dashboard() {
   return (
     <>
       <Container>
-        <h1 className="display-4 text-center">DashBoard</h1>
         <ToDoListProvider>
           <DashboardContent />
         </ToDoListProvider>
