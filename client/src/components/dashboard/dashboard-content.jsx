@@ -55,9 +55,10 @@ function DashboardContent() {
               setListFormData={setListFormData}
               setListDeleteFormData={setListDeleteFormData}
               owner={curUser}
+              canEdit={true}
             />
           ))}
-          
+
           {/* New list Button */}
           <Col
             sm="4"
@@ -81,6 +82,7 @@ function DashboardContent() {
               setListFormData={setListFormData}
               setListDeleteFormData={setListDeleteFormData}
               owner={list.owner}
+              canEdit={false}
             />
           ))}
         </Row>

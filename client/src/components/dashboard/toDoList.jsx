@@ -8,7 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { toDoListContext } from "./toDoListProvider";
 
-function ToDoList({ data, setListFormData, setListDeleteFormData, owner }) {
+function ToDoList({
+  data,
+  setListFormData,
+  setListDeleteFormData,
+  owner,
+  canEdit,
+}) {
   const { curUser } = useContext(toDoListContext);
   const navigate = useNavigate();
   return (
@@ -31,6 +37,7 @@ function ToDoList({ data, setListFormData, setListDeleteFormData, owner }) {
           <Card.Title>{data.title}</Card.Title>
           <Container className="d-flex justify-content-between px-0">
             <Button
+              disabled={canEdit ? false : true}
               className="me-1"
               variant="warning"
               onClick={(e) => {
@@ -42,6 +49,7 @@ function ToDoList({ data, setListFormData, setListDeleteFormData, owner }) {
               Edit
             </Button>
             <Button
+              disabled={canEdit ? false : true}
               variant="danger"
               onClick={(e) => {
                 // otherwise it would trigger the card button onClick() too
