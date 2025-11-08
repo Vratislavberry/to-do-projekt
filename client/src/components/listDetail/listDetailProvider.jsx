@@ -2,9 +2,163 @@ import { createContext, useState, useEffect } from "react";
 
 import FetchHelper from "../../fetch-helper.js";
 
+import { useLocation } from "react-router-dom";
+
+const mockLists = [
+  {
+    _id: "671f4b2f9a8e7c1234567890",
+    title: "Grocery Checklist",
+    owner: {
+      _id: "671f4b2f9a8e7c1234560001",
+      name: "Jan novák",
+      email: "jan.novak@gmail.com",
+    },
+    memberList: [
+      {
+        _id: "671f4b2f9a8e7c1234560002",
+        name: "Rubeus Hagrid",
+        email: "rubeus.hagrid@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560003",
+        name: "Alastor Moody",
+        email: "alastor.moody@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560004",
+        name: "Percy Weasley",
+        email: "percy.Weasley@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560005",
+        name: "Minerva McGonagall",
+        email: "alastor.moody@gmail.com",
+      },
+    ],
+    itemList: [
+      {
+        _id: "671f4b2f9a8e7c1234561001",
+        title: "Jablka - 5ks",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561003",
+        title: "Mrkve - 5ks",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561002",
+        title: "Mléko - 2l",
+        state: "checked",
+      },
+    ],
+
+    createdAt: "2025-10-25T14:23:00.000Z",
+    updatedAt: "2025-10-30T10:45:00.000Z",
+  },
+  {
+    _id: "771f4b2f9a8e7c1234567890",
+    title: "Italian Checklist",
+    owner: {
+      _id: "671f4b2f9a8e7c1234560001",
+      name: "Jan novák",
+      email: "jan.novak@gmail.com",
+    },
+    memberList: [
+      {
+        _id: "671f4b2f9a8e7c1234560002",
+        name: "Rubeus Hagrid",
+        email: "rubeus.hagrid@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560003",
+        name: "Alastor Moody",
+        email: "alastor.moody@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560004",
+        name: "Percy Weasley",
+        email: "percy.Weasley@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560005",
+        name: "Minerva McGonagall",
+        email: "alastor.moody@gmail.com",
+      },
+    ],
+    itemList: [
+      {
+        _id: "671f4b2f9a8e7c1234561001",
+        title: "Bazalka - 1 svazek",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561003",
+        title: "Špagety - 1 balení",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561002",
+        title: "Piza - 1ks",
+        state: "checked",
+      },
+    ],
+
+    createdAt: "2025-10-25T14:23:00.000Z",
+    updatedAt: "2025-10-30T10:45:00.000Z",
+  },
+  {
+    _id: "771f4b2f9a8e7c1234567891",
+    title: "Electronic store Checklist",
+    owner: {
+      _id: "671f4b2f9a8e7c1234560002",
+      name: "Rubeus Hagrid",
+      email: "rubeus.hagrid@gmail.com",
+    },
+    memberList: [
+      {
+        _id: "671f4b2f9a8e7c1234560003",
+        name: "Alastor Moody",
+        email: "alastor.moody@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560004",
+        name: "Percy Weasley",
+        email: "percy.Weasley@gmail.com",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234560005",
+        name: "Minerva McGonagall",
+        email: "alastor.moody@gmail.com",
+      },
+    ],
+    itemList: [
+      {
+        _id: "671f4b2f9a8e7c1234561001",
+        title: "Klávesnice",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561003",
+        title: "Myš",
+        state: "unchecked",
+      },
+      {
+        _id: "671f4b2f9a8e7c1234561002",
+        title: "Monitor",
+        state: "checked",
+      },
+    ],
+
+    createdAt: "2025-10-25T14:23:00.000Z",
+    updatedAt: "2025-10-30T10:45:00.000Z",
+  },
+];
+
 export const listDetailContext = createContext();
 
 function ListDetailProvider({ children, listID }) {
+  const location = useLocation();
   const [listDetailDto, setListDetailDto] = useState({
     state: "ready", // one of ready/pending/error
     data: null,
@@ -20,61 +174,31 @@ function ListDetailProvider({ children, listID }) {
 
     //--- MOCKUP ---
     // 1 list with its items & members
-    const result = {
-      ok: true,
-      curUserId: "671f4b2f9a8e7c1234560001", // change current user here for testing
-      data: {
-        _id: "671f4b2f9a8e7c1234567890",
-        title: "Grocery Checklist",
-        owner: {
-          _id: "671f4b2f9a8e7c1234560001",
-          name: "Jan novák",
-          email: "jan.novak@gmail.com",
-        },
-        memberList: [
-          {
-            _id: "671f4b2f9a8e7c1234560002",
-            name: "Rubeus Hagrid",
-            email: "rubeus.hagrid@gmail.com",
-          },
-          {
-            _id: "671f4b2f9a8e7c1234560003",
-            name: "Alastor Moody",
-            email: "alastor.moody@gmail.com",
-          },
-          {
-            _id: "671f4b2f9a8e7c1234560004",
-            name: "Percy Weasley",
-            email: "percy.Weasley@gmail.com",
-          },
-          {
-            _id: "671f4b2f9a8e7c1234560005",
-            name: "Minerva McGonagall",
-            email: "alastor.moody@gmail.com",
-          },
-        ],
-        itemList: [
-          {
-            _id: "671f4b2f9a8e7c1234561001",
-            title: "Jablka - 5ks",
-            state: "unchecked",
-          },
-          {
-            _id: "671f4b2f9a8e7c1234561003",
-            title: "Mrkve - 5ks",
-            state: "unchecked",
-          },
-          {
-            _id: "671f4b2f9a8e7c1234561002",
-            title: "Mléko - 2l",
-            state: "checked",
-          },
-        ],
 
-        createdAt: "2025-10-25T14:23:00.000Z",
-        updatedAt: "2025-10-30T10:45:00.000Z",
-      },
-    }; //--- MOCKUP ---
+    const curList =
+      mockLists.find((list) => list._id === dtoIn.listID) ||
+      "incorrect ID error";
+
+    const result =
+      curList === "incorrect ID error"
+        ? // new list
+          {
+            ok: true,
+            curUserId: location.state.curUser._id,
+            data: {
+              ...location.state.list,
+              itemList: [],
+              memberList: [],
+              owner: location.state.owner,
+            },
+          }
+        : {
+            ok: true,
+            curUserId: location.state.curUser._id, // change current user here for testing
+            data: curList,
+          };
+    //--- MOCKUP ---
+
     setListDetailDto((current) => {
       if (result.ok) {
         return {
@@ -93,7 +217,7 @@ function ListDetailProvider({ children, listID }) {
   // to launch load on visiting the Child component (listDetail)
   useEffect(() => {
     handleLoad({ listID: listID });
-  }, []);
+  }, [listID, location.state]);
 
   async function handleCreate(dtoIn) {
     // mark pending

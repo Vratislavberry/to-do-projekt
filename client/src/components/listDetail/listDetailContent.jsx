@@ -135,6 +135,13 @@ function ListDetailContent() {
           </Col>
         </Row>
       ) : null}
+
+      {/* error state - incorrect listID*/}
+      {state === "error" && data === null ? (
+        <Row>
+          <p>404 Oops.... This page does not exist </p>
+        </Row>
+      ) : null}
     </Container>
   );
 }

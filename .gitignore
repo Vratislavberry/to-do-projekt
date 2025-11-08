@@ -1,5 +1,8 @@
 #server/dao/storage/splitCardList // kdybych nechtel odesilat data na GitHub
 #server/dao/storage/groupList
+client/src/components/listDetail/CollectionFormat.js
+client/build/*
+client/build.zip
 .idea/
 .vscode/
 .history/
