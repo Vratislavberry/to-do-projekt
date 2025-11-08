@@ -24,8 +24,8 @@ function ToDoListForm({ item, onClose }) {
           // extracts data from Modal form
           const values = Object.fromEntries(formData);
           let result = null;
-          if (item.id){
-            result = await handlerMap.handleUpdate({...values, id: item.id});
+          if (item._id){
+            result = await handlerMap.handleUpdate({...values, id: item._id});
           }
           else{
             result = await handlerMap.handleCreate({ ...values });
@@ -39,7 +39,7 @@ function ToDoListForm({ item, onClose }) {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{item.id ? "Edit" : "Create"} group</Modal.Title>
+          <Modal.Title>{item._id ? "Edit" : "Create"} list</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Label>Title *</Form.Label>
@@ -70,7 +70,7 @@ function ToDoListForm({ item, onClose }) {
             type="submit"
             disabled={state === "pending"}
           >
-            {item.id ? "Edit" : "Create"}
+            {item._id ? "Edit" : "Create"}
           </Button>
         </Modal.Footer>
       </Form>

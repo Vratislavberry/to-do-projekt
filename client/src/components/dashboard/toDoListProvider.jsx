@@ -119,35 +119,42 @@ function ToDoListProvider({ children }) {
   }
 
   async function handleUpdate(dtoIn) {
+    const id = dtoIn._id ?? dtoIn.id;
+    // mark pending
     setToDoListDto((current) => {
-      return { ...current, state: "pending", pendingId: dtoIn.id };
+      return { ...current, state: "pending", pendingId: id };
     });
-    const result = await FetchHelper.group.update(dtoIn);
+
+    // update only on FE (no network call)
     setToDoListDto((current) => {
-      // finding index of updated item in the list
-      if (result.ok) {
-        const itemIndex = current.data.itemList.findIndex(
-          (item) => item.id === dtoIn.id
-        );
-        current.data.itemList[itemIndex] = dtoIn;
-        return {
-          ...current,
-          state: "ready",
-          data: { ...current.data, itemList: current.data.itemList.slice() },
-          error: null,
-          pendingId: undefined,
-        };
-      } else {
-        // state needs to be ready on error or no data is shown
-        return {
-          ...current,
-          state: "ready",
-          error: result.data,
-          pendingId: undefined,
-        };
+      if (!current.data || !Array.isArray(current.data.ownerOf)) {
+        return { ...current, state: "ready", pendingId: undefined };
       }
+
+      const itemIndex = current.data.ownerOf.findIndex(
+        (item) => item._id === id || item.id === id
+      );
+
+      if (itemIndex === -1) {
+        // item not found -> clear pending
+        return { ...current, state: "ready", pendingId: undefined };
+      }
+
+      // create a new array and replace the found item (merge dtoIn)
+      const newItemList = current.data.ownerOf.slice();
+      newItemList[itemIndex] = { ...newItemList[itemIndex], ...dtoIn };
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, ownerOf: newItemList },
+        error: null,
+        pendingId: undefined,
+      };
     });
-    return { ok: result.ok, error: result.ok ? undefined : result.data };
+
+    // simulate successful result for caller
+    return { ok: true };
   }
 
   async function handleDelete(dtoIn) {
@@ -177,7 +184,7 @@ function ToDoListProvider({ children }) {
 
   const value = {
     ...toDoListDto,
-    handlerMap: { handleLoad, handleCreate },
+    handlerMap: { handleLoad, handleCreate, handleUpdate },
   };
 
   return (

@@ -131,6 +131,11 @@ const mockLists = [
         name: "Minerva McGonagall",
         email: "alastor.moody@gmail.com",
       },
+      {
+        _id: "671f4b2f9a8e7c1234560001",
+        name: "Jan novák",
+        email: "jan.novak@gmail.com",
+      },
     ],
     itemList: [
       {
@@ -197,7 +202,7 @@ function ListDetailProvider({ children, listID }) {
             ok: true,
             curUserId: location.state.curUser._id, // change current user here for testing
             curUserName: location.state.curUser.name,
-            data: curList,
+            data: {... curList, title: location.state.list.title},
           };
     //--- MOCKUP ---
 

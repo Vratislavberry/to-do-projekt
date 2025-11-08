@@ -39,7 +39,7 @@ function DashboardContent() {
         />
       ) : null}
 
-      <UserProfile name={curUser?.name}/>
+      <UserProfile name={curUser?.name} />
 
       <h1 className="display-4 text-center">DashBoard</h1>
 
@@ -57,16 +57,7 @@ function DashboardContent() {
               owner={curUser}
             />
           ))}
-          <p>Member of</p>
-          {data?.memberOf?.map((list) => (
-            <ToDoList
-              key={list._id}
-              data={list}
-              setListFormData={setListFormData}
-              setListDeleteFormData={setListDeleteFormData}
-              owner={list.owner}
-            />
-          ))}
+          
           {/* New list Button */}
           <Col
             sm="4"
@@ -81,6 +72,17 @@ function DashboardContent() {
               <Icon path={mdiPlus} size={1} />
             </Button>
           </Col>
+
+          <p>Member of: </p>
+          {data?.memberOf?.map((list) => (
+            <ToDoList
+              key={list._id}
+              data={list}
+              setListFormData={setListFormData}
+              setListDeleteFormData={setListDeleteFormData}
+              owner={list.owner}
+            />
+          ))}
         </Row>
       ) : null}
     </Container>
