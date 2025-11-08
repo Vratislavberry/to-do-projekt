@@ -3,6 +3,7 @@
 client/src/components/listDetail/CollectionFormat.js
 client/build/*
 client/build.zip
+client/todo.txt
 .idea/
 .vscode/
 .history/

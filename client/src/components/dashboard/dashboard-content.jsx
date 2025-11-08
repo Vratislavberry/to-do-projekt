@@ -18,7 +18,7 @@ import { toDoListContext } from "./toDoListProvider";
 import ToDoList from "./toDoList";
 import PendingItem from "../pending-item";
 import ToDoListForm from "./toDoListForm";
-import GroupDeleteForm from "./group-delete-form";
+import ToDoListDeleteForm from "./toDoListDeleteForm";
 import UserProfile from "../userProfile";
 
 function DashboardContent() {
@@ -33,7 +33,7 @@ function DashboardContent() {
       ) : null}
 
       {!!listDeleteFormData ? (
-        <GroupDeleteForm
+        <ToDoListDeleteForm
           item={listDeleteFormData}
           onClose={() => setListDeleteFormData()}
         />

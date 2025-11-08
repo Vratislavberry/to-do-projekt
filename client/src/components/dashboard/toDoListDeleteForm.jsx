@@ -13,13 +13,13 @@ function GroupDeleteForm({ item, onClose }) {
   return (
     <Modal show={true} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete group</Modal.Title>
+        <Modal.Title>Delete list</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {!!errorState?.message ? (
           <Alert variant={"danger"}>{errorState.message}</Alert>
         ) : null}
-        Do you really want to delete group <b>{item.title}</b>
+        Do you really want to delete list <b>{item.title}</b>
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -33,7 +33,7 @@ function GroupDeleteForm({ item, onClose }) {
           variant="danger"
           disabled={state === "pending"}
           onClick={async () => {
-            const result = await handlerMap.handleDelete({ id: item.id });
+            const result = await handlerMap.handleDelete({ id: item._id });
             if (result.ok) {
               onClose();
             } else {

@@ -158,33 +158,48 @@ function ToDoListProvider({ children }) {
   }
 
   async function handleDelete(dtoIn) {
+    
+    const id = dtoIn._id ?? dtoIn.id;
+    // mark pending
     setToDoListDto((current) => {
-      return { ...current, state: "pending", pendingId: dtoIn.id };
+      return { ...current, state: "pending", pendingId: id };
     });
-    const result = await FetchHelper.group.delete(dtoIn);
+
+    // update only on FE (no network call)
     setToDoListDto((current) => {
-      if (result.ok) {
-        const itemIndex = current.data.itemList.findIndex(
-          (item) => item.id === dtoIn.id
-        );
-        current.data.itemList.splice(itemIndex, 1);
-        return {
-          ...current,
-          state: "ready",
-          data: { ...current.data, itemList: current.data.itemList.slice() },
-          error: null,
-        };
-      } else {
-        // state needs to be ready on error or no data is shown
-        return { ...current, state: "ready", error: result.data };
+      if (!current.data || !Array.isArray(current.data.ownerOf)) {
+        return { ...current, state: "ready", pendingId: undefined };
       }
+
+      const itemIndex = current.data.ownerOf.findIndex(
+        (item) => item._id === id || item.id === id
+      );
+      if (itemIndex === -1) {
+        // item not found -> clear pending
+        return { ...current, state: "ready", pendingId: undefined };
+      }
+
+      // create a new array and delete the found item
+      const newItemList = current.data.ownerOf.slice();
+      newItemList.splice(itemIndex, 1);
+
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, ownerOf: newItemList },
+        error: null,
+        pendingId: undefined,
+      };
     });
-    return { ok: result.ok, error: result.ok ? undefined : result.data };
-  }
+
+    // simulate successful result for caller
+    return { ok: true };
+  };
 
   const value = {
     ...toDoListDto,
-    handlerMap: { handleLoad, handleCreate, handleUpdate },
+    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete },
   };
 
   return (
