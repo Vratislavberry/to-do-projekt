@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 
 import { Table, Button, Form } from "react-bootstrap";
 import { listDetailContext } from "./listDetailProvider";
@@ -10,16 +10,23 @@ function MemberTable({ onClose }) {
     useContext(listDetailContext);
   const [selectedUser, setSelectedUser] = useState("");
 
-  // users that are not already members (available to add)
-  const availableUsers = (users || []).filter(
-    (u) =>
-      !(data?.memberList || []).some((m) => m._id === u._id) &&
-      !(u._id === curUserId)
+  // memoize availableUsers so reference is stable unless inputs change
+  const availableUsers = useMemo(
+    () =>
+      (users || []).filter(
+        (u) =>
+          !(data?.memberList || []).some((m) => m._id === u._id) &&
+          u._id !== curUserId
+      ),
+    [users, data?.memberList, curUserId]
   );
 
+  // initialize selectedUser only when it's empty (don't reset on every render)
   useEffect(() => {
-    setSelectedUser(availableUsers[0]?._id ?? "");
-  }, [availableUsers]);
+    if (!selectedUser) {
+      setSelectedUser(availableUsers[0]?._id ?? "");
+    }
+  }, [availableUsers, selectedUser]);
 
   async function onAddMember(e) {
     e?.preventDefault?.();
@@ -27,12 +34,19 @@ function MemberTable({ onClose }) {
     const userObj = (users || []).find((u) => u._id === selectedUser);
     if (!userObj) return;
 
-    // prefer provider handler, otherwise optimistically update UI
     if (handlerMap?.handleMemberAdd) {
-      await handlerMap.handleMemberAdd({ member: userObj });
+      const res = await handlerMap.handleMemberAdd({ member: userObj });
+      // optionally update selection after successful add
+      if (res?.ok) {
+        // set to next available user or empty
+        const next = availableUsers.find((u) => u._id !== selectedUser);
+        setSelectedUser(next?._id ?? "");
+      }
     } else {
-      // optimistic local update if no handler provided
       data.memberList.push(userObj);
+      // update selection similarly
+      const next = availableUsers.find((u) => u._id !== selectedUser);
+      setSelectedUser(next?._id ?? "");
     }
   }
 
@@ -63,7 +77,6 @@ function MemberTable({ onClose }) {
                     const result = await handlerMap.handleMemberDelete({
                       id: member._id,
                     });
-                    // if current user removed themselves, close the detail view
                     if (curUserId === member._id && result?.ok) {
                       navigate("/");
                     }
@@ -80,42 +93,42 @@ function MemberTable({ onClose }) {
           </tr>
         ))}
         {/* Add member row, only visible to owner */}
-        {curUserId === data?.owner?._id &&
-        <tr className="table-success">
-          <td colSpan={2}>
-            <Form
-              onSubmit={onAddMember}
-              className="d-flex gap-2 align-items-center"
-            >
-              <Form.Select
-                value={selectedUser}
-                onChange={(e) => setSelectedUser(e.target.value)}
-                aria-label="Select user to add"
-                disabled={availableUsers.length === 0}
+        {curUserId === data?.owner?._id && (
+          <tr className="table-success">
+            <td colSpan={2}>
+              <Form
+                onSubmit={onAddMember}
+                className="d-flex gap-2 align-items-center"
               >
-                {availableUsers.length === 0 ? (
-                  <option value="">No users available</option>
-                ) : (
-                  availableUsers.map((u) => (
-                    <option key={u._id} value={u._id}>
-                      {u.name} ({u.email})
-                    </option>
-                  ))
-                )}
-              </Form.Select>
+                <Form.Select
+                  value={selectedUser}
+                  onChange={(e) => setSelectedUser(e.target.value)}
+                  aria-label="Select user to add"
+                  disabled={availableUsers.length === 0}
+                >
+                  {availableUsers.length === 0 ? (
+                    <option value="">No users available</option>
+                  ) : (
+                    availableUsers.map((u) => (
+                      <option key={u._id} value={u._id}>
+                        {u.name} ({u.email})
+                      </option>
+                    ))
+                  )}
+                </Form.Select>
 
-              <Button
-                type="submit"
-                variant="success"
-                disabled={!selectedUser}
-                size="sm"
-              >
-                Add
-              </Button>
-            </Form>
-          </td>
-        </tr>
-}
+                <Button
+                  type="submit"
+                  variant="success"
+                  disabled={!selectedUser}
+                  size="sm"
+                >
+                  Add
+                </Button>
+              </Form>
+            </td>
+          </tr>
+        )}
       </tbody>
     </Table>
   );
