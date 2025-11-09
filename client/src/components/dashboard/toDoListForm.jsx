@@ -22,19 +22,22 @@ function ToDoListForm({ item, onClose }) {
           e.stopPropagation();
           const formData = new FormData(e.target);
           // extracts data from Modal form
-          const values = Object.fromEntries(formData);
+
+          // checkbox value handling
+          let values = Object.fromEntries(formData);
+          values.archived = values.archived === "on" ? true : false;
+          
           let result = null;
-          if (item._id){
-            result = await handlerMap.handleUpdate({...values, id: item._id});
-          }
-          else{
+          if (item._id) {
+            result = await handlerMap.handleUpdate({ ...values, id: item._id });
+          } else {
             result = await handlerMap.handleCreate({ ...values });
           }
 
           if (result.ok) {
             onClose();
           } else {
-            setErrorState(result.error)
+            setErrorState(result.error);
           }
         }}
       >
@@ -51,11 +54,21 @@ function ToDoListForm({ item, onClose }) {
             required
             maxLength={50}
           />
+          {item._id && (
+            <>
+              <Form.Label>Archived: </Form.Label>
+              <Form.Check
+                type="checkbox"
+                name="archived"
+                disabled={state === "pending"}
+                defaultChecked={item.archived}
+              />
+            </>
+          )}
 
           {!!errorState?.group?.message ? (
-          <Alert variant={"danger"}>{errorState.group.message}</Alert>
-        ) : null}
-        
+            <Alert variant={"danger"}>{errorState.group.message}</Alert>
+          ) : null}
         </Modal.Body>
         <Modal.Footer>
           <Button

@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/esm/Container";
+import { Badge } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -36,10 +37,13 @@ function ToDoList({
         onMouseOut={(e) => e.currentTarget.classList.remove("shadow")}
       >
         <Card.Body>
-          <Card.Title>{data.title} {data.archived && "(archived)"}</Card.Title>
+          <Card.Title>
+            {data.title}{" "}
+            {data.archived && <Badge bg="danger">archived</Badge>}
+          </Card.Title>
           <Container className="d-flex justify-content-between px-0">
             <Button
-              disabled={(!canEdit || data.archived) ? true : false}
+              disabled={!canEdit ? true : false}
               className="me-1"
               variant="warning"
               onClick={(e) => {
@@ -51,7 +55,7 @@ function ToDoList({
               Edit
             </Button>
             <Button
-              disabled={(!canEdit || data.archived) ? true : false}
+              disabled={!canEdit ? true : false}
               variant="danger"
               onClick={(e) => {
                 // otherwise it would trigger the card button onClick() too
