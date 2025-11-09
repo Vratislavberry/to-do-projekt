@@ -1,10 +1,39 @@
 import { useContext, useState, useEffect } from "react";
 
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Form } from "react-bootstrap";
 import { listDetailContext } from "./listDetailProvider";
 
 function MemberTable({ onClose }) {
-  const { state, data, handlerMap, curUserId } = useContext(listDetailContext);
+  const { state, data, handlerMap, curUserId, users } =
+    useContext(listDetailContext);
+  const [selectedUser, setSelectedUser] = useState("");
+
+  // users that are not already members (available to add)
+  const availableUsers = (users || []).filter(
+    (u) =>
+      !(data?.memberList || []).some((m) => m._id === u._id) &&
+      !(u._id === curUserId)
+  );
+
+  useEffect(() => {
+    setSelectedUser(availableUsers[0]?._id ?? "");
+  }, [availableUsers]);
+
+  async function onAddMember(e) {
+    e?.preventDefault?.();
+    if (!selectedUser) return;
+    const userObj = (users || []).find((u) => u._id === selectedUser);
+    if (!userObj) return;
+
+    // prefer provider handler, otherwise optimistically update UI
+    if (handlerMap?.handleMemberAdd) {
+      await handlerMap.handleMemberAdd({ member: userObj });
+    } else {
+      // optimistic local update if no handler provided
+      data.memberList.push(userObj);
+    }
+  }
+
   return (
     <Table responsive hover>
       <thead className="sticky-top">
@@ -44,6 +73,43 @@ function MemberTable({ onClose }) {
             )}
           </tr>
         ))}
+        {/* Add member row, only visible to owner */}
+        {curUserId === data?.owner?._id &&
+        <tr className="table-success">
+          <td colSpan={2}>
+            <Form
+              onSubmit={onAddMember}
+              className="d-flex gap-2 align-items-center"
+            >
+              <Form.Select
+                value={selectedUser}
+                onChange={(e) => setSelectedUser(e.target.value)}
+                aria-label="Select user to add"
+                disabled={availableUsers.length === 0}
+              >
+                {availableUsers.length === 0 ? (
+                  <option value="">No users available</option>
+                ) : (
+                  availableUsers.map((u) => (
+                    <option key={u._id} value={u._id}>
+                      {u.name} ({u.email})
+                    </option>
+                  ))
+                )}
+              </Form.Select>
+
+              <Button
+                type="submit"
+                variant="success"
+                disabled={!selectedUser}
+                size="sm"
+              >
+                Add
+              </Button>
+            </Form>
+          </td>
+        </tr>
+}
       </tbody>
     </Table>
   );

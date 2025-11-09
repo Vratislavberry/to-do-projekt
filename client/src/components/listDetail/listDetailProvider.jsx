@@ -71,19 +71,9 @@ const mockLists = [
         email: "rubeus.hagrid@gmail.com",
       },
       {
-        _id: "671f4b2f9a8e7c1234560003",
-        name: "Alastor Moody",
-        email: "alastor.moody@gmail.com",
-      },
-      {
         _id: "671f4b2f9a8e7c1234560004",
         name: "Percy Weasley",
         email: "percy.Weasley@gmail.com",
-      },
-      {
-        _id: "671f4b2f9a8e7c1234560005",
-        name: "Minerva McGonagall",
-        email: "alastor.moody@gmail.com",
       },
     ],
     itemList: [
@@ -160,6 +150,34 @@ const mockLists = [
   },
 ];
 
+const users = [
+  {
+    _id: "671f4b2f9a8e7c1234560001",
+    name: "Jan novák",
+    email: "jan.novak@gmail.com",
+  },
+  {
+    _id: "671f4b2f9a8e7c1234560002",
+    name: "Rubeus Hagrid",
+    email: "rubeus.hagrid@gmail.com",
+  },
+  {
+    _id: "671f4b2f9a8e7c1234560003",
+    name: "Alastor Moody",
+    email: "alastor.moody@gmail.com",
+  },
+  {
+    _id: "671f4b2f9a8e7c1234560004",
+    name: "Percy Weasley",
+    email: "percy.Weasley@gmail.com",
+  },
+  {
+    _id: "671f4b2f9a8e7c1234560005",
+    name: "Minerva McGonagall",
+    email: "alastor.moody@gmail.com",
+  },
+];
+
 export const listDetailContext = createContext();
 
 function ListDetailProvider({ children, listID }) {
@@ -202,7 +220,7 @@ function ListDetailProvider({ children, listID }) {
             ok: true,
             curUserId: location.state.curUser._id, // change current user here for testing
             curUserName: location.state.curUser.name,
-            data: {... curList, title: location.state.list.title},
+            data: { ...curList, title: location.state.list.title },
           };
     //--- MOCKUP ---
 
@@ -215,9 +233,10 @@ function ListDetailProvider({ children, listID }) {
           curUserId: result.curUserId,
           curUserName: result.curUserName,
           error: null,
+          users: users,
         };
       } else {
-        return { ...current, state: "error", error: result.data };
+        return { ...current, state: "error", error: result.data, users: users };
       }
     });
   }
@@ -414,6 +433,42 @@ function ListDetailProvider({ children, listID }) {
     return { ok: true };
   }
 
+  async function handleMemberAdd(dtoIn) {
+    // mark pending
+    setListDetailDto((current) => {
+      return { ...current, state: "pending" };
+    });
+    
+    // add only on FE (no network call)
+    setListDetailDto((current) => {
+      // if no data or no memberList yet, initialize it
+      if (!current.data || !Array.isArray(current.data.memberList)) {
+        return {
+          ...current,
+          state: "ready",
+          data: { ...(current.data || {}), memberList: [dtoIn.member] },
+          error: null,
+          ok: true,
+        };
+      }
+
+      // create a new array and add the new member
+      const newMemberList = current.data.memberList.slice();
+      newMemberList.push(dtoIn.member);
+
+      return {
+        ...current,
+        state: "ready",
+        data: { ...current.data, memberList: newMemberList },
+        error: null,
+        ok: true, // Normally would come from backend response
+      };
+    });
+
+    // return simulated backend response
+    return { ok: true, data: dtoIn.member };
+  }
+
   const value = {
     ...listDetailDto,
     listID,
@@ -425,6 +480,7 @@ function ListDetailProvider({ children, listID }) {
       handleFilterChange,
       handleListUpdate,
       handleMemberDelete,
+      handleMemberAdd,
     },
   };
 
