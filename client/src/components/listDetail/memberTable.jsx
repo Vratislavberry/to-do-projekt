@@ -2,8 +2,10 @@ import { useContext, useState, useEffect } from "react";
 
 import { Table, Button, Form } from "react-bootstrap";
 import { listDetailContext } from "./listDetailProvider";
+import { useNavigate } from "react-router-dom";
 
 function MemberTable({ onClose }) {
+  const navigate = useNavigate();
   const { state, data, handlerMap, curUserId, users } =
     useContext(listDetailContext);
   const [selectedUser, setSelectedUser] = useState("");
@@ -61,6 +63,10 @@ function MemberTable({ onClose }) {
                     const result = await handlerMap.handleMemberDelete({
                       id: member._id,
                     });
+                    // if current user removed themselves, close the detail view
+                    if (curUserId === member._id && result?.ok) {
+                      navigate("/");
+                    }
                   }}
                   variant="danger"
                   size="sm"
