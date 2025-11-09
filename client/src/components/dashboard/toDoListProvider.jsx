@@ -9,6 +9,7 @@ function ToDoListProvider({ children }) {
     state: "ready", // one of ready/pending/error
     data: null,
     error: null,
+    filter: { active: true, archived: true },
   });
 
   async function handleLoad() {
@@ -119,6 +120,15 @@ function ToDoListProvider({ children }) {
     return { ok: true, data: newList };
   }
 
+  // key: "active" | "archived"
+  // value: boolean
+  async function handleFilterChange(key, value) {
+    setToDoListDto((current) => ({
+      ...current,
+      filter: { ...current.filter, [key]: value },
+    }));
+  }
+
   async function handleUpdate(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
     // mark pending
@@ -159,7 +169,6 @@ function ToDoListProvider({ children }) {
   }
 
   async function handleDelete(dtoIn) {
-    
     const id = dtoIn._id ?? dtoIn.id;
     // mark pending
     setToDoListDto((current) => {
@@ -184,7 +193,6 @@ function ToDoListProvider({ children }) {
       const newItemList = current.data.ownerOf.slice();
       newItemList.splice(itemIndex, 1);
 
-
       return {
         ...current,
         state: "ready",
@@ -196,11 +204,11 @@ function ToDoListProvider({ children }) {
 
     // simulate successful result for caller
     return { ok: true };
-  };
+  }
 
   const value = {
     ...toDoListDto,
-    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete },
+    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete, handleFilterChange },
   };
 
   return (

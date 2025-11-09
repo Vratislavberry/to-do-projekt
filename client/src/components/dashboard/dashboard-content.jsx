@@ -13,6 +13,7 @@ import Image from "react-bootstrap/Image";
 
 import Icon from "@mdi/react";
 import { mdiPlus } from "@mdi/js";
+import { mdiSort } from "@mdi/js";
 
 import { toDoListContext } from "./toDoListProvider";
 import ToDoList from "./toDoList";
@@ -20,11 +21,13 @@ import PendingItem from "../pending-item";
 import ToDoListForm from "./toDoListForm";
 import ToDoListDeleteForm from "./toDoListDeleteForm";
 import UserProfile from "../userProfile";
+import ListFilterConfig from "./listFilterConfig";
 
 function DashboardContent() {
-  const { state, data, curUser } = useContext(toDoListContext);
+  const { state, data, curUser, filter } = useContext(toDoListContext);
   const [listFormData, setListFormData] = useState();
   const [listDeleteFormData, setListDeleteFormData] = useState();
+  const [showFilterConfig, setShowFilterConfig] = useState(false);
 
   return (
     <Container>
@@ -39,6 +42,10 @@ function DashboardContent() {
         />
       ) : null}
 
+      {!!showFilterConfig ? (
+        <ListFilterConfig onClose={() => setShowFilterConfig(false)} />
+      ) : null}
+
       <UserProfile name={curUser?.name} />
 
       <h1 className="display-4 text-center">DashBoard</h1>
@@ -47,11 +54,22 @@ function DashboardContent() {
 
       {state === "ready" ? (
         <Row>
+          <Col className="d-flex justify-content-end my-2">
+            <Button
+              variant="success"
+              onClick={() => setShowFilterConfig(true)}
+              disabled={state === "pending"}
+            >
+              <Icon path={mdiSort} size={1} />
+            </Button>
+          </Col>
+
           <p>Owner of: </p>
           {/* Active toDoLists */}
           {data?.ownerOf?.map(
             (list) =>
-              list.archived === false && (
+              list.archived === false &&
+              filter.active && (
                 <ToDoList
                   key={list._id}
                   data={list}
@@ -66,7 +84,8 @@ function DashboardContent() {
           {/* Archived toDoLists */}
           {data?.ownerOf?.map(
             (list) =>
-              list.archived === true && (
+              list.archived === true &&
+              filter.archived && (
                 <ToDoList
                   key={list._id}
                   data={list}

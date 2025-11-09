@@ -347,7 +347,7 @@ function ListDetailProvider({ children, listID }) {
   }
 
   // key: "checked" | "unchecked"
-  // value: boolen
+  // value: boolean
   async function handleFilterChange(key, value) {
     setListDetailDto((current) => ({
       ...current,

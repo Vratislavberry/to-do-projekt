@@ -2,12 +2,12 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
 import { useContext } from "react";
-import { listDetailContext } from "./listDetailProvider";
+import { toDoListContext } from "./toDoListProvider";
 
 
 //onClose: () => void;
-function ItemFilterConfig({ onClose }) {
-  const context = useContext(listDetailContext);
+function ListFilterConfig({ onClose }) {
+  const context = useContext(toDoListContext);
   const { handlerMap, filter } = context ?? {
     state: "pending",
     data: [],
@@ -18,24 +18,24 @@ function ItemFilterConfig({ onClose }) {
       <h3 className="mt-3">Filter</h3>
       <ButtonGroup>
         <Button
-          variant={filter?.checked ? "primary" : "secondary"}
+          variant={filter?.active ? "primary" : "secondary"}
           onClick={() =>
-            handlerMap?.handleFilterChange("checked", !filter?.checked)
+            handlerMap?.handleFilterChange("active", !filter?.active)
           }
         >
-          Checked
+          Active
         </Button>
         <Button
-          variant={filter?.unchecked ? "primary" : "secondary"}
+          variant={filter?.archived ? "primary" : "secondary"}
           onClick={() =>
-            handlerMap?.handleFilterChange("unchecked", !filter?.unchecked)
+            handlerMap?.handleFilterChange("archived", !filter?.archived)
           }
         >
-          Unchecked
+          Archived
         </Button>
       </ButtonGroup>
     </Offcanvas>
   );
 }
 
-export default ItemFilterConfig;
+export default ListFilterConfig;
