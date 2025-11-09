@@ -48,16 +48,35 @@ function DashboardContent() {
       {state === "ready" ? (
         <Row>
           <p>Owner of: </p>
-          {data?.ownerOf?.map((list) => (
-            <ToDoList
-              key={list._id}
-              data={list}
-              setListFormData={setListFormData}
-              setListDeleteFormData={setListDeleteFormData}
-              owner={curUser}
-              canEdit={true}
-            />
-          ))}
+          {/* Active toDoLists */}
+          {data?.ownerOf?.map(
+            (list) =>
+              list.archived === false && (
+                <ToDoList
+                  key={list._id}
+                  data={list}
+                  setListFormData={setListFormData}
+                  setListDeleteFormData={setListDeleteFormData}
+                  owner={curUser}
+                  canEdit={true}
+                />
+              )
+          )}
+
+          {/* Archived toDoLists */}
+          {data?.ownerOf?.map(
+            (list) =>
+              list.archived === true && (
+                <ToDoList
+                  key={list._id}
+                  data={list}
+                  setListFormData={setListFormData}
+                  setListDeleteFormData={setListDeleteFormData}
+                  owner={curUser}
+                  canEdit={true}
+                />
+              )
+          )}
 
           {/* New list Button */}
           <Col

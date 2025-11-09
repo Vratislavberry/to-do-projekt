@@ -28,23 +28,6 @@ function ListDetailContent() {
   const [itemFormData, setItemFormData] = useState();
   const [itemFormDeleteData, setItemFormDeleteData] = useState();
 
-  // when data is ready, initialize SplitCardStates
-  // with "current" for the first card and "unvisited" for the rest
-  useEffect(() => {
-    if (state === "ready" && data?.itemList?.length > 0) {
-      setSplitCardStates(
-        data?.splitCardList.map((item, i) => {
-          return "unvisited";
-        })
-      );
-      setTextSegmentsList(
-        data?.splitCardList.map((item) => {
-          return [];
-        })
-      );
-    }
-  }, [state]);
-
   return (
     <Container>
       {!!showConfig ? (

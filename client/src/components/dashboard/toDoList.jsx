@@ -23,6 +23,8 @@ function ToDoList({
       className="d-flex justify-content-center text-center my-2 mx-sm-0"
     >
       <Card
+        bg={data.archived ? "secondary" : "light"}
+        text={data.archived ? "white" : "dark"}
         className="w-100 w-sm-auto"
         onClick={() =>
           navigate(`/listDetail?id=${data._id}`, {
@@ -34,10 +36,10 @@ function ToDoList({
         onMouseOut={(e) => e.currentTarget.classList.remove("shadow")}
       >
         <Card.Body>
-          <Card.Title>{data.title}</Card.Title>
+          <Card.Title>{data.title} {data.archived && "(archived)"}</Card.Title>
           <Container className="d-flex justify-content-between px-0">
             <Button
-              disabled={canEdit ? false : true}
+              disabled={(!canEdit || data.archived) ? true : false}
               className="me-1"
               variant="warning"
               onClick={(e) => {
@@ -49,7 +51,7 @@ function ToDoList({
               Edit
             </Button>
             <Button
-              disabled={canEdit ? false : true}
+              disabled={(!canEdit || data.archived) ? true : false}
               variant="danger"
               onClick={(e) => {
                 // otherwise it would trigger the card button onClick() too

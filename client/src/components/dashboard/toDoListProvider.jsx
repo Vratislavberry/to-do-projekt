@@ -26,7 +26,7 @@ function ToDoListProvider({ children }) {
           {
             _id: "671f4b2f9a8e7c1234567890",
             title: "Grocery Checklist",
-            archived: false,
+            archived: true,
             createdAt: "2025-11-07T13:44:25+00:00",
             updatedAt: "2025-11-07T13:44:25+00:00",
           },
@@ -54,6 +54,7 @@ function ToDoListProvider({ children }) {
         ],
       },
     }; //--- MOCKUP ---
+
     setToDoListDto((current) => {
       if (result.ok) {
         return {
