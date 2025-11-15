@@ -53,10 +53,12 @@ function MemberTable({ onClose }) {
   return (
     <Table responsive hover>
       <thead className="sticky-top">
-        <tr>
-          <th>Members</th>
-          <th>Remove</th>
-        </tr>
+        { data?.memberList.length > 0 &&
+          <tr>
+            <th>Members</th>
+            <th>Remove</th>
+          </tr>
+        }
       </thead>
 
       <tbody>
