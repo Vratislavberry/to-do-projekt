@@ -1,0 +1,27 @@
+[
+  {
+    "_id": "671f4b2f9a8e7c1234560001",
+    "name": "Jan novák",
+    "email": "jan.novak@gmail.com"
+  },
+  {
+    "_id": "671f4b2f9a8e7c1234560002",
+    "name": "Rubeus Hagrid",
+    "email": "rubeus.hagrid@gmail.com"
+  },
+  {
+    "_id": "671f4b2f9a8e7c1234560003",
+    "name": "Alastor Moody",
+    "email": "alastor.moody@gmail.com"
+  },
+  {
+    "_id": "671f4b2f9a8e7c1234560004",
+    "name": "Percy Weasley",
+    "email": "percy.Weasley@gmail.com"
+  },
+  {
+    "_id": "671f4b2f9a8e7c1234560005",
+    "name": "Minerva McGonagall",
+    "email": "alastor.moody@gmail.com"
+  }
+]
