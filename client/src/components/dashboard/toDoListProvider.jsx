@@ -4,6 +4,9 @@ import FetchHelper from "../../fetch-helper.js";
 
 export const toDoListContext = createContext();
 
+const useMock = process.env.REACT_APP_USE_MOCK === "true";
+console.log(useMock ? "Using MOCK": "Using real BE");
+
 function ToDoListProvider({ children }) {
   const [toDoListDto, setToDoListDto] = useState({
     state: "ready", // one of ready/pending/error

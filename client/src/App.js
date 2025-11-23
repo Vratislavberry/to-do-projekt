@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+//import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/layout";
 import ListDetail from "./components/listDetail/listDetail";
@@ -8,7 +9,7 @@ function App() {
   /*alt+shift+f = zarovnani*/
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
@@ -16,7 +17,7 @@ function App() {
             <Route path="/listDetail" element={<ListDetail />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
