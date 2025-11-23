@@ -50,81 +50,91 @@ function DashboardContent() {
 
       <h1 className="display-4 text-center">DashBoard</h1>
 
-      {state === "pending" ? <PendingItem /> : null}
+      {/*state === "pending" ? <PendingItem /> : null*/}
 
-      {state === "ready" ? (
-        <Row>
-          <Col className="d-flex justify-content-end my-2">
-            <Button
-              variant="success"
-              onClick={() => setShowFilterConfig(true)}
-              disabled={state === "pending"}
+      <Col className="d-flex justify-content-end my-2">
+        <Button
+          variant="success"
+          onClick={() => setShowFilterConfig(true)}
+          disabled={state === "pending"}
+        >
+          <Icon path={mdiSort} size={1} />
+        </Button>
+      </Col>
+
+      <Row>
+        <p>Owner of: </p>
+        {/* Active toDoLists */}
+        {state === "pending" ? (
+          <PendingItem />
+        ) : (
+          <>
+            {data?.ownerOf?.map(
+              (list) =>
+                list.archived === false &&
+                filter.active && (
+                  <ToDoList
+                    key={list._id}
+                    data={list}
+                    setListFormData={setListFormData}
+                    setListDeleteFormData={setListDeleteFormData}
+                    owner={curUser}
+                    canEdit={true}
+                  />
+                )
+            )}
+
+            {/* Archived toDoLists */}
+            {data?.ownerOf?.map(
+              (list) =>
+                list.archived === true &&
+                filter.archived && (
+                  <ToDoList
+                    key={list._id}
+                    data={list}
+                    setListFormData={setListFormData}
+                    setListDeleteFormData={setListDeleteFormData}
+                    owner={curUser}
+                    canEdit={true}
+                  />
+                )
+            )}
+
+            {/* New list Button */}
+            <Col
+              sm="4"
+              className="d-flex justify-content-center text-center my-2 mx-sm-0"
             >
-              <Icon path={mdiSort} size={1} />
-            </Button>
-          </Col>
+              <Button
+                disable={(state === "pending").toString()}
+                onClick={() => setListFormData({})}
+                className="w-100 w-sm-auto"
+                variant="success"
+              >
+                <Icon path={mdiPlus} size={1} />
+              </Button>
+            </Col>
+          </>
+        )}
 
-          <p>Owner of: </p>
-          {/* Active toDoLists */}
-          {data?.ownerOf?.map(
-            (list) =>
-              list.archived === false &&
-              filter.active && (
-                <ToDoList
-                  key={list._id}
-                  data={list}
-                  setListFormData={setListFormData}
-                  setListDeleteFormData={setListDeleteFormData}
-                  owner={curUser}
-                  canEdit={true}
-                />
-              )
-          )}
-
-          {/* Archived toDoLists */}
-          {data?.ownerOf?.map(
-            (list) =>
-              list.archived === true &&
-              filter.archived && (
-                <ToDoList
-                  key={list._id}
-                  data={list}
-                  setListFormData={setListFormData}
-                  setListDeleteFormData={setListDeleteFormData}
-                  owner={curUser}
-                  canEdit={true}
-                />
-              )
-          )}
-
-          {/* New list Button */}
-          <Col
-            sm="4"
-            className="d-flex justify-content-center text-center my-2 mx-sm-0"
-          >
-            <Button
-              disable={(state === "pending").toString()}
-              onClick={() => setListFormData({})}
-              className="w-100 w-sm-auto"
-              variant="success"
-            >
-              <Icon path={mdiPlus} size={1} />
-            </Button>
-          </Col>
-
-          <p>Member of: </p>
-          {data?.memberOf?.map((list) => (
-            <ToDoList
-              key={list._id}
-              data={list}
-              setListFormData={setListFormData}
-              setListDeleteFormData={setListDeleteFormData}
-              owner={list.owner}
-              canEdit={false}
-            />
-          ))}
-        </Row>
-      ) : null}
+        <p>Member of: </p>
+        {state === "pending" ? (
+          <PendingItem />
+        ) : (
+          <>
+            {data?.memberOf?.map((list) => (
+              <ToDoList
+                key={list._id}
+                data={list}
+                setListFormData={setListFormData}
+                setListDeleteFormData={setListDeleteFormData}
+                owner={list.owner}
+                canEdit={false}
+              />
+            ))}
+          </>
+        )}
+      </Row>
     </Container>
   );
 }

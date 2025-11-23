@@ -4,8 +4,9 @@ import FetchHelper from "../../fetch-helper.js";
 
 export const toDoListContext = createContext();
 
+import mockData from "../../mock/mockData.json";
 const useMock = process.env.REACT_APP_USE_MOCK === "true";
-console.log(useMock ? "Using MOCK": "Using real BE");
+console.log(useMock ? "Using MOCK" : "Using real BE");
 
 function ToDoListProvider({ children }) {
   const [toDoListDto, setToDoListDto] = useState({
@@ -23,6 +24,7 @@ function ToDoListProvider({ children }) {
 
     //--- MOCKUP ---
     // 1 list with its items & members
+    /*
     const result = {
       ok: true,
       data: {
@@ -57,7 +59,16 @@ function ToDoListProvider({ children }) {
           },
         ],
       },
-    }; //--- MOCKUP ---
+      }; 
+      */
+    //--- MOCKUP ---¨
+    let result;
+    if (useMock) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate network delay
+      result = mockData;
+    } else {
+      result = await FetchHelper.List.list();
+    }
 
     setToDoListDto((current) => {
       if (result.ok) {
@@ -67,7 +78,7 @@ function ToDoListProvider({ children }) {
           data: result.data,
           curUser: {
             _id: "671f4b2f9a8e7c1234560001",
-            name: "Jan novák",
+            name: "Jan Novák",
             email: "jan.novak@gmail.com",
           },
           error: null,
@@ -89,10 +100,16 @@ function ToDoListProvider({ children }) {
       return { ...current, state: "pending" };
     });
 
-    // create only on FE (no network call)
-    // create new List here so we can return it to caller
-    const newId = Math.random().toString(36).substring(2, 9);
-    const newList = { ...dtoIn, _id: newId };
+    let newList;
+    if (useMock) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate network delay
+      // create only on FE (no network call)
+      // create new List here so we can return it to caller
+      const newId = Math.random().toString(36).substring(2, 9);
+      newList = { ...dtoIn, _id: newId };
+    } else {
+      newList = await FetchHelper.List.create(dtoIn);
+    }
 
     setToDoListDto((current) => {
       // if no data or no List yet, initialize it
@@ -139,6 +156,12 @@ function ToDoListProvider({ children }) {
       return { ...current, state: "pending", pendingId: id };
     });
 
+    if (useMock) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate network delay
+    } else {
+      await FetchHelper.List.update(dtoIn);
+    }
+
     // update only on FE (no network call)
     setToDoListDto((current) => {
       if (!current.data || !Array.isArray(current.data.ownerOf)) {
@@ -178,6 +201,12 @@ function ToDoListProvider({ children }) {
       return { ...current, state: "pending", pendingId: id };
     });
 
+    if (useMock) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate network delay
+    } else {
+      await FetchHelper.List.update(dtoIn);
+    }
+
     // update only on FE (no network call)
     setToDoListDto((current) => {
       if (!current.data || !Array.isArray(current.data.ownerOf)) {
@@ -211,7 +240,13 @@ function ToDoListProvider({ children }) {
 
   const value = {
     ...toDoListDto,
-    handlerMap: { handleLoad, handleCreate, handleUpdate, handleDelete, handleFilterChange },
+    handlerMap: {
+      handleLoad,
+      handleCreate,
+      handleUpdate,
+      handleDelete,
+      handleFilterChange,
+    },
   };
 
   return (

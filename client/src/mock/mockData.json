@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "data": {
+    "ownerOf": [
+      {
+        "_id": "671f4b2f9a8e7c1234567890",
+        "title": "Grocery Checklist",
+        "archived": true,
+        "createdAt": "2025-11-07T13:44:25+00:00",
+        "updatedAt": "2025-11-07T13:44:25+00:00"
+      },
+      {
+        "_id": "771f4b2f9a8e7c1234567890",
+        "title": "Italian Checklist",
+        "archived": false,
+        "createdAt": "2025-11-07T13:44:25+00:00",
+        "updatedAt": "2025-11-07T13:44:25+00:00"
+      }
+    ],
+    "memberOf": [
+      {
+        "_id": "771f4b2f9a8e7c1234567891",
+        "title": "Electronic store Checklist",
+        "archived": false,
+        "createdAt": "2025-11-07T13:44:25+00:00",
+        "updatedAt": "2025-11-07T13:44:25+00:00",
+        "owner": {
+          "_id": "671f4b2f9a8e7c1234560002",
+          "name": "Rubeus Hagrid",
+          "email": "rubeus.hagrid@gmail.com"
+        }
+      }
+    ]
+  }
+}
