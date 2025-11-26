@@ -15,12 +15,26 @@
         "archived": false,
         "createdAt": "2025-11-07T13:44:25+00:00",
         "updatedAt": "2025-11-07T13:44:25+00:00"
+      },
+      {
+        "_id": "871f4b2f9a8e7c1234567892",
+        "title": "Pharmacy Checklist",
+        "archived": false,
+        "createdAt": "2025-11-23T00:00:00+00:00",
+        "updatedAt": "2025-11-23T00:00:00+00:00"
+      },
+      {
+        "_id": "871f4b2f9a8e7c1234567893",
+        "title": "Sweet Shop Checklist",
+        "archived": false,
+        "createdAt": "2025-11-23T00:00:00+00:00",
+        "updatedAt": "2025-11-23T00:00:00+00:00"
       }
     ],
     "memberOf": [
       {
         "_id": "771f4b2f9a8e7c1234567891",
-        "title": "Electronic store Checklist",
+        "title": "Electronic Store Checklist",
         "archived": false,
         "createdAt": "2025-11-07T13:44:25+00:00",
         "updatedAt": "2025-11-07T13:44:25+00:00",

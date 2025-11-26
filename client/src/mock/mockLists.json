@@ -4,7 +4,7 @@
     "title": "Grocery Checklist",
     "owner": {
       "_id": "671f4b2f9a8e7c1234560001",
-      "name": "Jan novák",
+      "name": "Jan Novak",
       "email": "jan.novak@gmail.com"
     },
     "memberList": [
@@ -32,17 +32,17 @@
     "itemList": [
       {
         "_id": "671f4b2f9a8e7c1234561001",
-        "title": "Jablka - 5ks",
+        "title": "Apples - 5 pcs",
         "state": "unchecked"
       },
       {
         "_id": "671f4b2f9a8e7c1234561003",
-        "title": "Mrkve - 5ks",
+        "title": "Carrots - 5 pcs",
         "state": "unchecked"
       },
       {
         "_id": "671f4b2f9a8e7c1234561002",
-        "title": "Mléko - 2l",
+        "title": "Milk - 2 l",
         "state": "checked"
       }
     ],
@@ -54,7 +54,7 @@
     "title": "Italian Checklist",
     "owner": {
       "_id": "671f4b2f9a8e7c1234560001",
-      "name": "Jan novák",
+      "name": "Jan Novak",
       "email": "jan.novak@gmail.com"
     },
     "memberList": [
@@ -72,17 +72,17 @@
     "itemList": [
       {
         "_id": "671f4b2f9a8e7c1234561001",
-        "title": "Bazalka - 1 svazek",
+        "title": "Basil - 1 bunch",
         "state": "unchecked"
       },
       {
         "_id": "671f4b2f9a8e7c1234561003",
-        "title": "Špagety - 1 balení",
+        "title": "Spaghetti - 1 pack",
         "state": "unchecked"
       },
       {
         "_id": "671f4b2f9a8e7c1234561002",
-        "title": "Piza - 1ks",
+        "title": "Pizza - 1 pc",
         "state": "checked"
       }
     ],
@@ -91,7 +91,7 @@
   },
   {
     "_id": "771f4b2f9a8e7c1234567891",
-    "title": "Electronic store Checklist",
+    "title": "Electronic Store Checklist",
     "owner": {
       "_id": "671f4b2f9a8e7c1234560002",
       "name": "Rubeus Hagrid",
@@ -115,19 +115,19 @@
       },
       {
         "_id": "671f4b2f9a8e7c1234560001",
-        "name": "Jan novák",
+        "name": "Jan Novak",
         "email": "jan.novak@gmail.com"
       }
     ],
     "itemList": [
       {
         "_id": "671f4b2f9a8e7c1234561001",
-        "title": "Klávesnice",
+        "title": "Keyboard",
         "state": "unchecked"
       },
       {
         "_id": "671f4b2f9a8e7c1234561003",
-        "title": "Myš",
+        "title": "Mouse",
         "state": "unchecked"
       },
       {
@@ -138,5 +138,95 @@
     ],
     "createdAt": "2025-10-25T14:23:00.000Z",
     "updatedAt": "2025-10-30T10:45:00.000Z"
+  },
+  {
+    "_id": "871f4b2f9a8e7c1234567892",
+    "title": "Pharmacy Checklist",
+    "owner": {
+      "_id": "671f4b2f9a8e7c1234560001",
+      "name": "Jan Novak",
+      "email": "jan.novak@gmail.com"
+    },
+    "memberList": [
+      {
+        "_id": "671f4b2f9a8e7c1234560002",
+        "name": "Rubeus Hagrid",
+        "email": "rubeus.hagrid@gmail.com"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234560003",
+        "name": "Alastor Moody",
+        "email": "alastor.moody@gmail.com"
+      }
+    ],
+    "itemList": [
+      {
+        "_id": "671f4b2f9a8e7c1234561010",
+        "title": "Painkillers - 20 pcs",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561011",
+        "title": "Cough syrup 200 ml",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561012",
+        "title": "Sterile bandages - pack",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561013",
+        "title": "Multivitamins - 1 box",
+        "state": "unchecked"
+      }
+    ],
+    "createdAt": "2025-11-23T00:00:00.000Z",
+    "updatedAt": "2025-11-23T00:00:00.000Z"
+  },
+  {
+    "_id": "871f4b2f9a8e7c1234567893",
+    "title": "Sweet Shop Checklist",
+    "owner": {
+      "_id": "671f4b2f9a8e7c1234560002",
+      "name": "Rubeus Hagrid",
+      "email": "rubeus.hagrid@gmail.com"
+    },
+    "memberList": [
+      {
+        "_id": "671f4b2f9a8e7c1234560004",
+        "name": "Percy Weasley",
+        "email": "percy.Weasley@gmail.com"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234560005",
+        "name": "Minerva McGonagall",
+        "email": "alastor.moody@gmail.com"
+      }
+    ],
+    "itemList": [
+      {
+        "_id": "671f4b2f9a8e7c1234561020",
+        "title": "Chocolate bars - 10 pcs",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561021",
+        "title": "Gummy bears - 2 packs",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561022",
+        "title": "Cupcakes - 6 pcs",
+        "state": "unchecked"
+      },
+      {
+        "_id": "671f4b2f9a8e7c1234561023",
+        "title": "Lollipops - 12 pcs",
+        "state": "unchecked"
+      }
+    ],
+    "createdAt": "2025-11-23T00:00:00.000Z",
+    "updatedAt": "2025-11-23T00:00:00.000Z"
   }
 ]

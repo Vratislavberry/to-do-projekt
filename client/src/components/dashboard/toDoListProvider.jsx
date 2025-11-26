@@ -18,7 +18,7 @@ function ToDoListProvider({ children }) {
 
   async function handleLoad() {
     setToDoListDto((current) => ({ ...current, state: "pending" }));
-
+    
     try {
       let result;
       if (useMock) {
