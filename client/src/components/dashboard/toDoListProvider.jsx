@@ -18,7 +18,6 @@ function ToDoListProvider({ children }) {
 
   async function handleLoad() {
     setToDoListDto((current) => ({ ...current, state: "pending" }));
-    
     try {
       let result;
       if (useMock) {
@@ -32,7 +31,11 @@ function ToDoListProvider({ children }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Load failed";
-        setToDoListDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setToDoListDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -80,9 +83,12 @@ function ToDoListProvider({ children }) {
       const created = resp?.data ?? resp;
 
       if (!ok) {
-        // server indicated failure -> set error state and return failure
         const errMsg = resp?.data ?? resp?.error ?? "Create failed";
-        setToDoListDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setToDoListDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -126,7 +132,11 @@ function ToDoListProvider({ children }) {
 
   async function handleUpdate(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
-    setToDoListDto((current) => ({ ...current, state: "pending", pendingId: id }));
+    setToDoListDto((current) => ({
+      ...current,
+      state: "pending",
+      pendingId: id,
+    }));
 
     try {
       let result;
@@ -141,7 +151,12 @@ function ToDoListProvider({ children }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Update failed";
-        setToDoListDto((current) => ({ ...current, state: "error", error: errMsg, pendingId: undefined }));
+        setToDoListDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+          pendingId: undefined,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -173,14 +188,23 @@ function ToDoListProvider({ children }) {
       return { ok: true, data: dtoIn };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setToDoListDto((current) => ({ ...current, state: "error", error: msg, pendingId: undefined }));
+      setToDoListDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+        pendingId: undefined,
+      }));
       return { ok: false, error: msg };
     }
   }
 
   async function handleDelete(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
-    setToDoListDto((current) => ({ ...current, state: "pending", pendingId: id }));
+    setToDoListDto((current) => ({
+      ...current,
+      state: "pending",
+      pendingId: id,
+    }));
 
     try {
       let result;
@@ -195,7 +219,12 @@ function ToDoListProvider({ children }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Delete failed";
-        setToDoListDto((current) => ({ ...current, state: "error", error: errMsg, pendingId: undefined }));
+        setToDoListDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+          pendingId: undefined,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -227,7 +256,12 @@ function ToDoListProvider({ children }) {
       return { ok: true };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setToDoListDto((current) => ({ ...current, state: "error", error: msg, pendingId: undefined }));
+      setToDoListDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+        pendingId: undefined,
+      }));
       return { ok: false, error: msg };
     }
   }

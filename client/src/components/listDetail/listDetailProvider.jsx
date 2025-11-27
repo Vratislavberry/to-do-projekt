@@ -9,6 +9,9 @@ import mockLists from "../../mock/mockLists.json";
 export const listDetailContext = createContext();
 const useMock = process.env.REACT_APP_USE_MOCK === "true";
 
+// Data is sent here from:
+// 1. the dashboard/toDoList.jsx via navigation - if the user click on an already existing (mocked) list
+// 2. the URL query parameter - the same it as from navigation - redundant but kept for possible direct link sharing
 function ListDetailProvider({ children, listID }) {
   const location = useLocation();
   const [listDetailDto, setListDetailDto] = useState({
@@ -20,7 +23,6 @@ function ListDetailProvider({ children, listID }) {
 
   async function handleLoad(dtoIn) {
     setListDetailDto((current) => ({ ...current, state: "pending" }));
-
     try {
       let result;
       if (useMock) {
@@ -29,9 +31,15 @@ function ListDetailProvider({ children, listID }) {
         const preloaded = location?.state?.list;
         const preloadedCurUser = location?.state?.curUser;
 
-        if (preloaded && (preloaded._id === dtoIn.listID || preloaded.id === dtoIn.listID)) {
+        if (
+          preloaded &&
+          (preloaded._id === dtoIn.listID || preloaded.id === dtoIn.listID)
+        ) {
           // find full version in mockLists (it contains itemList/memberList)
-          const fullFromMock = mockLists.find((l) => l._id === dtoIn.listID || l.id === dtoIn.listID) || {};
+          const fullFromMock =
+            mockLists.find(
+              (l) => l._id === dtoIn.listID || l.id === dtoIn.listID
+            ) || {};
           const ownerFromState = location?.state?.owner ?? {};
 
           // merge: prefer explicit fields from navigate-state (preloaded), otherwise take from mock
@@ -41,9 +49,11 @@ function ListDetailProvider({ children, listID }) {
             // overlay preloaded values (title/archived etc.)
             ...preloaded,
             // ensure owner/memberList/itemList exist and prefer preloaded when present
-            owner: preloaded.owner ?? ownerFromState ?? fullFromMock.owner ?? {},
+            owner:
+              preloaded.owner ?? ownerFromState ?? fullFromMock.owner ?? {},
             memberList:
-              Array.isArray(preloaded.memberList) && preloaded.memberList.length > 0
+              Array.isArray(preloaded.memberList) &&
+              preloaded.memberList.length > 0
                 ? preloaded.memberList
                 : Array.isArray(fullFromMock.memberList)
                 ? fullFromMock.memberList
@@ -94,7 +104,11 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Load failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -112,7 +126,11 @@ function ListDetailProvider({ children, listID }) {
     } catch (err) {
       const msg = err?.message ?? String(err);
       console.error("Error in handleLoad:", msg);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+      }));
       return { ok: false, error: msg };
     }
   }
@@ -147,7 +165,11 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = resp?.data ?? resp?.error ?? "Create failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -173,14 +195,22 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true, data: created };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+      }));
       return { ok: false, error: msg };
     }
   }
 
   async function handleUpdate(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
-    setListDetailDto((current) => ({ ...current, state: "pending", pendingId: id }));
+    setListDetailDto((current) => ({
+      ...current,
+      state: "pending",
+      pendingId: id,
+    }));
 
     try {
       let result;
@@ -195,7 +225,12 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Update failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg, pendingId: undefined }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+          pendingId: undefined,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -227,14 +262,23 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg, pendingId: undefined }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+        pendingId: undefined,
+      }));
       return { ok: false, error: msg };
     }
   }
 
   async function handleDelete(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
-    setListDetailDto((current) => ({ ...current, state: "pending", pendingId: id }));
+    setListDetailDto((current) => ({
+      ...current,
+      state: "pending",
+      pendingId: id,
+    }));
 
     try {
       let result;
@@ -249,7 +293,12 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Delete failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg, pendingId: undefined }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+          pendingId: undefined,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -281,7 +330,12 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg, pendingId: undefined }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+        pendingId: undefined,
+      }));
       return { ok: false, error: msg };
     }
   }
@@ -311,7 +365,11 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Update failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -325,14 +383,22 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+      }));
       return { ok: false, error: msg };
     }
   }
 
   async function handleMemberDelete(dtoIn) {
     const id = dtoIn._id ?? dtoIn.id;
-    setListDetailDto((current) => ({ ...current, state: "pending", pendingId: id }));
+    setListDetailDto((current) => ({
+      ...current,
+      state: "pending",
+      pendingId: id,
+    }));
 
     try {
       let result;
@@ -347,7 +413,12 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Delete failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg, pendingId: undefined }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+          pendingId: undefined,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -379,7 +450,12 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg, pendingId: undefined }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+        pendingId: undefined,
+      }));
       return { ok: false, error: msg };
     }
   }
@@ -401,7 +477,11 @@ function ListDetailProvider({ children, listID }) {
 
       if (!ok) {
         const errMsg = result?.data ?? result?.error ?? "Add member failed";
-        setListDetailDto((current) => ({ ...current, state: "error", error: errMsg }));
+        setListDetailDto((current) => ({
+          ...current,
+          state: "error",
+          error: errMsg,
+        }));
         return { ok: false, error: errMsg };
       }
 
@@ -427,7 +507,11 @@ function ListDetailProvider({ children, listID }) {
       return { ok: true, data: created };
     } catch (err) {
       const msg = err?.message ?? String(err);
-      setListDetailDto((current) => ({ ...current, state: "error", error: msg }));
+      setListDetailDto((current) => ({
+        ...current,
+        state: "error",
+        error: msg,
+      }));
       return { ok: false, error: msg };
     }
   }
