@@ -40,6 +40,11 @@ function ToDoList({
           <Card.Title>
             {data.title}{" "}
             {data.archived && <Badge bg="danger">archived</Badge>}
+            {data.items_no !== undefined && (
+              <div style={{ fontSize: "0.8em" }}>
+                {data.checked_items_no} / {data.items_no} completed
+              </div>
+            )}
           </Card.Title>
           <Container className="d-flex justify-content-between px-0">
             <Button

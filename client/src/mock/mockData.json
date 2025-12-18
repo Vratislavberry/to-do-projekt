@@ -6,6 +6,8 @@
         "_id": "671f4b2f9a8e7c1234567890",
         "title": "Grocery Checklist",
         "archived": true,
+        "items_no": 3,
+        "checked_items_no": 1,
         "createdAt": "2025-11-07T13:44:25+00:00",
         "updatedAt": "2025-11-07T13:44:25+00:00"
       },
@@ -13,6 +15,8 @@
         "_id": "771f4b2f9a8e7c1234567890",
         "title": "Italian Checklist",
         "archived": false,
+        "items_no": 3,
+        "checked_items_no": 1,
         "createdAt": "2025-11-07T13:44:25+00:00",
         "updatedAt": "2025-11-07T13:44:25+00:00"
       },
@@ -20,6 +24,8 @@
         "_id": "871f4b2f9a8e7c1234567892",
         "title": "Pharmacy Checklist",
         "archived": false,
+        "items_no": 4,
+        "checked_items_no": 0,
         "createdAt": "2025-11-23T00:00:00+00:00",
         "updatedAt": "2025-11-23T00:00:00+00:00"
       },
@@ -27,6 +33,8 @@
         "_id": "871f4b2f9a8e7c1234567893",
         "title": "Sweet Shop Checklist",
         "archived": false,
+        "items_no": 4,
+        "checked_items_no": 0,
         "createdAt": "2025-11-23T00:00:00+00:00",
         "updatedAt": "2025-11-23T00:00:00+00:00"
       }
@@ -36,6 +44,8 @@
         "_id": "771f4b2f9a8e7c1234567891",
         "title": "Electronic Store Checklist",
         "archived": false,
+        "items_no": 3,
+        "checked_items_no": 1,
         "createdAt": "2025-11-07T13:44:25+00:00",
         "updatedAt": "2025-11-07T13:44:25+00:00",
         "owner": {

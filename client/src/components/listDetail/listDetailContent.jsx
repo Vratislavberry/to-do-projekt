@@ -53,8 +53,7 @@ function ListDetailContent() {
         <ItemFilterConfig onClose={() => setShowFilterConfig(false)} />
       ) : null}
 
-
-      <UserProfile name={curUserName || ""}/>
+      <UserProfile name={curUserName || ""} />
 
       <h1 className="display-4 text-center">{data?.title}</h1>
 
@@ -81,27 +80,33 @@ function ListDetailContent() {
 
       {state === "ready" && data?.itemList?.length > 0 ? (
         <Row>
-          <ItemCounter />
+          <Col sm="12" md="6">
+            {data.itemList.map((item) =>
+              filter[item.state] ? (
+                <ItemUI
+                  key={item._id}
+                  item={item}
+                  setItemFormData={setItemFormData}
+                />
+              ) : null
+            )}
+          </Col>
 
-          {data.itemList.map((item) =>
-            filter[item.state] ? (
-              <ItemUI
-                key={item._id}
-                item={item}
-                setItemFormData={setItemFormData}
-              />
-            ) : null
-          )}
+          <Col sm="12" md="6">
+            <Col sm="12" className="my-2">
+              <Button
+                variant="success"
+                className="w-100 text-start"
+                disabled={state === "pending"}
+                onClick={() => setItemFormData({})}
+              >
+                Create new note
+              </Button>
+            </Col>
 
-          <Col sm="12" className="my-2">
-            <Button
-              variant="success"
-              className="w-100 text-start"
-              disabled={state === "pending"}
-              onClick={() => setItemFormData({})}
-            >
-              Create new note
-            </Button>
+            <Col sm="12" md="6" className="mx-auto">
+              <ItemCounter />
+            </Col>
           </Col>
         </Row>
       ) : null}
