@@ -15,7 +15,7 @@ function ItemCounter() {
       ),
     },
     {
-      name: "╳",
+      name: "X",
       value: data?.itemList?.reduce(
         (accum, item) => (item.state === "unchecked" ? accum + 1 : accum),
         0

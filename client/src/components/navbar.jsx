@@ -7,7 +7,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <Navbar sticky="top" bg="light" variant="light" expand="sm">
+    <Navbar sticky="top" expand="sm" bg="body" variant="body">
       <Container>
         <Navbar.Brand
           onClick={() => navigate("/")}

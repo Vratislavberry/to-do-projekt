@@ -24,8 +24,8 @@ function ToDoList({
       className="d-flex justify-content-center text-center my-2 mx-sm-0"
     >
       <Card
-        bg={data.archived ? "secondary" : "light"}
-        text={data.archived ? "white" : "dark"}
+        bg={data.archived ? "secondary" : "body"}
+        text={data.archived ? "white" : "body"}
         className="w-100 w-sm-auto"
         onClick={() =>
           navigate(`/listDetail?id=${data._id}`, {

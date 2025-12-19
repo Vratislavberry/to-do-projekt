@@ -96,7 +96,7 @@ function MemberTable({ onClose }) {
         ))}
         {/* Add member row, only visible to owner */}
         {curUserId === data?.owner?._id && (
-          <tr className="table-success">
+          <tr className="table">
             <td colSpan={2}>
               <Form
                 onSubmit={onAddMember}
