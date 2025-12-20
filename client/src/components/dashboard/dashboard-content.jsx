@@ -23,11 +23,14 @@ import ToDoListDeleteForm from "./toDoListDeleteForm";
 import UserProfile from "../userProfile";
 import ListFilterConfig from "./listFilterConfig";
 
+import { useTranslation } from "react-i18next";
+
 function DashboardContent() {
   const { state, data, curUser, filter } = useContext(toDoListContext);
   const [listFormData, setListFormData] = useState();
   const [listDeleteFormData, setListDeleteFormData] = useState();
   const [showFilterConfig, setShowFilterConfig] = useState(false);
+  const [t, i18n] = useTranslation()
 
   return (
     <Container>
@@ -48,7 +51,7 @@ function DashboardContent() {
 
       <UserProfile name={curUser?.name} />
 
-      <h1 className="display-4 text-center">DashBoard</h1>
+      <h1 className="display-4 text-center">{t("dashboard.dashboard")}</h1>
 
       {/*state === "pending" ? <PendingItem /> : null*/}
 
