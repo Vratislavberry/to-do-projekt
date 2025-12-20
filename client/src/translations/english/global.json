@@ -1,6 +1,21 @@
 {
   "dashboard": {
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "owner_of": "Owner of",
+    "member_of": "Member of",
+    "completed": "Completed",
+    "edit": "Edit",
+    "delete": "Delete",
+    "filter": "Filter",
+    "active": "Active",
+    "archived": "Archived",
+    "login": "Login",
+    "delete_list": "Delete list",
+    "list_delete_msg": "Do you really want to delete list",
+    "close": "Close",
+    "title": "Title",
+    "list": "list",
+    "create": "Create"
   },
   "detail": {}
 }

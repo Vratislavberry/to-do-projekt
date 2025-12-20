@@ -1,6 +1,21 @@
 {
   "dashboard": {
-    "dashboard": "Přehled"
+    "dashboard": "Přehled",
+    "owner_of": "Vlastněno",
+    "member_of": "Členem",
+    "completed": "Dokončeno",
+    "edit": "Upravit",
+    "delete": "Smazat",
+    "filter": "Filtr",
+    "active": "Aktivní",
+    "archived": "Archivováno",
+    "login": "Přihlášen",
+    "delete_list": "Smazat seznam",
+    "list_delete_msg": "Opravdu chcete smazat seznam",
+    "close": "Zavřít",
+    "title": "Název",
+    "list": "seznam",
+    "create": "Vytvořit"
   },
   "detail": {}
 }

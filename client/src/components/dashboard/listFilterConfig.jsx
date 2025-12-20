@@ -4,6 +4,7 @@ import { ButtonGroup } from "react-bootstrap";
 import { useContext } from "react";
 import { toDoListContext } from "./toDoListProvider";
 
+import { useTranslation } from "react-i18next";
 
 //onClose: () => void;
 function ListFilterConfig({ onClose }) {
@@ -13,9 +14,11 @@ function ListFilterConfig({ onClose }) {
     data: [],
   };
 
+  const [t, i18n] = useTranslation();
+
   return (
     <Offcanvas onHide={onClose} show={true} placement="bottom" className="p-3">
-      <h3 className="mt-3">Filter</h3>
+      <h3 className="mt-3">{t("dashboard.filter")}</h3>
       <ButtonGroup>
         <Button
           variant={filter?.active ? "primary" : "secondary"}
@@ -23,7 +26,7 @@ function ListFilterConfig({ onClose }) {
             handlerMap?.handleFilterChange("active", !filter?.active)
           }
         >
-          Active
+          {t("dashboard.active")}
         </Button>
         <Button
           variant={filter?.archived ? "primary" : "secondary"}
@@ -31,7 +34,7 @@ function ListFilterConfig({ onClose }) {
             handlerMap?.handleFilterChange("archived", !filter?.archived)
           }
         >
-          Archived
+          {t("dashboard.archived")}
         </Button>
       </ButtonGroup>
     </Offcanvas>

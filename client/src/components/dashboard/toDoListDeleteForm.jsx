@@ -6,20 +6,23 @@ import Alert from "react-bootstrap/Alert";
 
 import { toDoListContext } from "./toDoListProvider.jsx";
 
+import { useTranslation } from "react-i18next";
+
 function GroupDeleteForm({ item, onClose }) {
   const [errorState, setErrorState] = useState();
   const { state, handlerMap } = useContext(toDoListContext);
+  const [t, i18n] = useTranslation();
 
   return (
     <Modal show={true} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete list</Modal.Title>
+        <Modal.Title>{t("dashboard.delete")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {!!errorState?.message ? (
           <Alert variant={"danger"}>{errorState.message}</Alert>
         ) : null}
-        Do you really want to delete list <b>{item.title}</b>
+        {t("dashboard.list_delete_msg")} <b>{item.title}</b> ? 
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -27,7 +30,7 @@ function GroupDeleteForm({ item, onClose }) {
           onClick={onClose}
           disabled={state === "pending"}
         >
-          Close
+          {t("dashboard.close")}
         </Button>
         <Button
           variant="danger"
@@ -42,7 +45,7 @@ function GroupDeleteForm({ item, onClose }) {
             }
           }}
         >
-          Delete
+          {t("dashboard.delete")}
         </Button>
       </Modal.Footer>
     </Modal>

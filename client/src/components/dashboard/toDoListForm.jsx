@@ -7,9 +7,12 @@ import Alert from "react-bootstrap/Alert";
 
 import { toDoListContext } from "./toDoListProvider.jsx";
 
+import { useTranslation } from "react-i18next";
+
 function ToDoListForm({ item, onClose }) {
   const { state, handlerMap } = useContext(toDoListContext);
   const [errorState, setErrorState] = useState();
+  const [t, i18n] = useTranslation();
 
   return (
     <Modal show={true} onHide={onClose}>
@@ -26,7 +29,7 @@ function ToDoListForm({ item, onClose }) {
           // checkbox value handling
           let values = Object.fromEntries(formData);
           values.archived = values.archived === "on" ? true : false;
-          
+
           let result = null;
           if (item._id) {
             result = await handlerMap.handleUpdate({ ...values, id: item._id });
@@ -42,10 +45,10 @@ function ToDoListForm({ item, onClose }) {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{item._id ? "Edit" : "Create"} list</Modal.Title>
+          <Modal.Title>{item._id ? t("dashboard.edit") : t("dashboard.create")} {t("dashboard.list")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label>Title *</Form.Label>
+          <Form.Label>{t("dashboard.title")} *</Form.Label>
           <Form.Control
             type="text"
             name="title"
@@ -56,7 +59,7 @@ function ToDoListForm({ item, onClose }) {
           />
           {item._id && (
             <>
-              <Form.Label>Archived: </Form.Label>
+              <Form.Label>{t("dashboard.archived")}: </Form.Label>
               <Form.Check
                 type="checkbox"
                 name="archived"

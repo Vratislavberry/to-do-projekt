@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { toDoListContext } from "./toDoListProvider";
 
+import { useTranslation } from "react-i18next";
+
 function ToDoList({
   data,
   setListFormData,
@@ -18,6 +20,8 @@ function ToDoList({
 }) {
   const { curUser } = useContext(toDoListContext);
   const navigate = useNavigate();
+  const [t, i18n] = useTranslation();
+
   return (
     <Col
       sm="4"
@@ -38,11 +42,10 @@ function ToDoList({
       >
         <Card.Body>
           <Card.Title>
-            {data.title}{" "}
-            {data.archived && <Badge bg="danger">archived</Badge>}
+            {data.title} {data.archived && <Badge bg="danger">{t("dashboard.archived")}</Badge>}
             {data.items_no !== undefined && (
               <div style={{ fontSize: "0.8em" }}>
-                {data.checked_items_no} / {data.items_no} completed
+                {data.checked_items_no} / {data.items_no} {t("dashboard.completed")}
               </div>
             )}
           </Card.Title>
@@ -57,7 +60,7 @@ function ToDoList({
                 setListFormData(data);
               }}
             >
-              Edit
+              {t("dashboard.edit")}
             </Button>
             <Button
               disabled={!canEdit ? true : false}
@@ -68,7 +71,7 @@ function ToDoList({
                 setListDeleteFormData(data);
               }}
             >
-              Delete
+              {t("dashboard.delete")}
             </Button>
           </Container>
         </Card.Body>

@@ -66,7 +66,7 @@ function DashboardContent() {
       </Col>
 
       <Row>
-        <p>Owner of: </p>
+        <p>{t("dashboard.owner_of")}:</p>
         {/* Active toDoLists */}
         {state === "pending" ? (
           <PendingItem />
@@ -120,7 +120,7 @@ function DashboardContent() {
           </>
         )}
 
-        <p>Member of: </p>
+        <p>{t("dashboard.member_of")}:</p>
         {state === "pending" ? (
           <PendingItem />
         ) : (
