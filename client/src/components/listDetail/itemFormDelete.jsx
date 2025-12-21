@@ -6,6 +6,8 @@ import Alert from "react-bootstrap/Alert";
 
 import { listDetailContext } from "./listDetailProvider.jsx";
 
+import { useTranslation } from "react-i18next";
+
 function SplitCardDeleteForm({
   item,
   onClose,
@@ -17,16 +19,18 @@ function SplitCardDeleteForm({
   const [errorState, setErrorState] = useState();
   const { state, handlerMap } = useContext(listDetailContext);
 
+  const [t, i18n] = useTranslation();
+
   return (
     <Modal show={true} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete item</Modal.Title>
+        <Modal.Title>{t("detail.delete")} {t("detail.item")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {!!errorState?.message ? (
           <Alert variant={"danger"}>{errorState.message}</Alert>
         ) : null}
-        Do you really want to delete item <b>{item.title}</b>
+        {t("detail.item_delete_msg")} <b>{item.title}</b> ?
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -34,7 +38,7 @@ function SplitCardDeleteForm({
           onClick={onClose}
           disabled={state === "pending"}
         >
-          Close
+          {t("detail.cancel")}
         </Button>
         <Button
           variant="danger"
@@ -48,7 +52,7 @@ function SplitCardDeleteForm({
             }
           }}
         >
-          Delete
+          {t("detail.delete")}
         </Button>
       </Modal.Footer>
     </Modal>

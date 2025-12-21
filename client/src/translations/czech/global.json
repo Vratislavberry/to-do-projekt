@@ -17,5 +17,29 @@
     "list": "seznam",
     "create": "Vytvořit"
   },
-  "detail": {}
+  "detail": {
+    "filter": "Filtr",
+    "checked": "Splněné",
+    "unchecked": "Nesplněné",
+    "update": "Upravit",
+    "add": "Přidat",
+    "delete": "Smazat",
+    "cancel": "Zrušit",
+    "item": "poznámku",
+    "title": "Nadpis",
+    "create": "Vytvořit",
+    "item_delete_msg": "Opravdu chcete smazat poznámku",
+    "list_settings": "Nastavení seznamu",
+    "owner": "Vlastník",
+    "you": "vy",
+    "404_msg": "404 Oops.... tahle stránka neexistuje ",
+    "no_items_msg": "Ještě zde nejsou žádné poznámky...",
+    "create_new_note": "Vytvořit novou poznámku",
+    "submit": "Potvrdit",
+    "update_title_msg": "Jste si jisti, že chcete změnit název na",
+    "members": "Členové",
+    "remove": "Odstranit",
+    "remove_member_msg": "Jste si jisti, že chcete ze seznamu odstranit člena",
+    "no_users_msg": "Žádní uživatelé nejsou dostupní"
+  }
 }

@@ -30,7 +30,7 @@ function DashboardContent() {
   const [listFormData, setListFormData] = useState();
   const [listDeleteFormData, setListDeleteFormData] = useState();
   const [showFilterConfig, setShowFilterConfig] = useState(false);
-  const [t, i18n] = useTranslation()
+  const [t, i18n] = useTranslation();
 
   return (
     <Container>

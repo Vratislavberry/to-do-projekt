@@ -6,8 +6,13 @@ import ListTitleForm from "./listTitleForm.jsx";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Button from "react-bootstrap/Button";
 
+import { useTranslation } from "react-i18next";
+
 function ListDetailConfig({ onClose }) {
   const { state, data, curUserId } = useContext(listDetailContext);
+
+  const [t, i18n] = useTranslation();
+
   return (
     // set height on the Offcanvas element itself
     <Offcanvas
@@ -17,13 +22,13 @@ function ListDetailConfig({ onClose }) {
       style={{ height: "60vh" }}
     >
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>List settings</Offcanvas.Title>
+        <Offcanvas.Title>{t("detail.list_settings")}</Offcanvas.Title>
       </Offcanvas.Header>
 
       <Offcanvas.Body className="overflow-auto">
         <p>
-          Owner: {data?.owner?.name}{" "}
-          {data?.owner?._id === curUserId && "(you)"}
+          {t("detail.owner")}: <b>{data?.owner?.name}</b>{" "}
+          {data?.owner?._id === curUserId && "(" + t("detail.you") + ")"}
         </p>
 
         {data?.owner?._id === curUserId && <ListTitleForm />}

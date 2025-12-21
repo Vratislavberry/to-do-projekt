@@ -4,6 +4,8 @@ import { Table, Button, Form } from "react-bootstrap";
 import { listDetailContext } from "./listDetailProvider";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 function MemberTable({ onClose }) {
   const navigate = useNavigate();
   const { state, data, handlerMap, curUserId, users } =
@@ -50,15 +52,17 @@ function MemberTable({ onClose }) {
     }
   }
 
+  const [t, i18n] = useTranslation();
+
   return (
     <Table responsive hover>
       <thead className="sticky-top">
-        { data?.memberList.length > 0 &&
+        {data?.memberList.length > 0 && (
           <tr>
-            <th>Members</th>
-            <th>Remove</th>
+            <th>{t("detail.members")}</th>
+            <th>{t("detail.remove")}</th>
           </tr>
-        }
+        )}
       </thead>
 
       <tbody>
@@ -71,7 +75,7 @@ function MemberTable({ onClose }) {
                   onClick={async () => {
                     if (
                       !confirm(
-                        `Are you sure you want to remove member "${member.name}"?`
+                        `${t("detail.remove_member_msg")} "${member.name}"?`
                       )
                     ) {
                       return;
@@ -86,7 +90,7 @@ function MemberTable({ onClose }) {
                   variant="danger"
                   size="sm"
                 >
-                  Remove
+                  {t("detail.delete")}
                 </Button>
               </td>
             ) : (
@@ -109,7 +113,7 @@ function MemberTable({ onClose }) {
                   disabled={availableUsers.length === 0}
                 >
                   {availableUsers.length === 0 ? (
-                    <option value="">No users available</option>
+                    <option value="">{t("detail.no_users_msg")}</option>
                   ) : (
                     availableUsers.map((u) => (
                       <option key={u._id} value={u._id}>
@@ -125,7 +129,7 @@ function MemberTable({ onClose }) {
                   disabled={!selectedUser}
                   size="sm"
                 >
-                  Add
+                  {t("detail.add")}
                 </Button>
               </Form>
             </td>

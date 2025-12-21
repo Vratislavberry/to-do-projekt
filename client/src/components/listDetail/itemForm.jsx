@@ -7,8 +7,12 @@ import Col from "react-bootstrap/Col";
 
 import { listDetailContext } from "./listDetailProvider";
 
+import { useTranslation } from "react-i18next";
+
 function SplitCardForm({ item, onClose, setItemFormDeleteData }) {
   const { state, data, handlerMap } = useContext(listDetailContext);
+
+  const [t, i18n] = useTranslation();
 
   return (
     <Modal show={true} onHide={onClose}>
@@ -38,10 +42,10 @@ function SplitCardForm({ item, onClose, setItemFormDeleteData }) {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{item?._id ? "Update" : "Add"} Item</Modal.Title>
+          <Modal.Title>{item?._id ? t("detail.update") : t("detail.add")} {t("detail.item")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Label>Title *</Form.Label>
+          <Form.Label>{t("detail.title")} *</Form.Label>
           <Form.Control
             type="text"
             name="title"
@@ -64,7 +68,7 @@ function SplitCardForm({ item, onClose, setItemFormDeleteData }) {
                 }}
                 disabled={state === "pending"}
               >
-                Delete
+                {t("detail.delete")}
               </Button>
             ) : null}
           </Col>
@@ -75,14 +79,14 @@ function SplitCardForm({ item, onClose, setItemFormDeleteData }) {
               disabled={state === "pending"}
               className="mx-2"
             >
-              Cancel
+              {t("detail.cancel")}
             </Button>
             <Button
               variant="primary"
               type="submit"
               disabled={state === "pending"}
             >
-              {item?._id ? "Update" : "Create"}
+              {item?._id ? t("detail.update") : t("detail.create")}
             </Button>
           </Col>
         </Modal.Footer>

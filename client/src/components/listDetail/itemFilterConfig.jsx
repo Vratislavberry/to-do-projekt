@@ -4,9 +4,11 @@ import { ButtonGroup } from "react-bootstrap";
 import { useContext } from "react";
 import { listDetailContext } from "./listDetailProvider";
 
+import { useTranslation } from "react-i18next";
 
 //onClose: () => void;
 function ItemFilterConfig({ onClose }) {
+  const [t, i18n] = useTranslation();
   const context = useContext(listDetailContext);
   const { handlerMap, filter } = context ?? {
     state: "pending",
@@ -15,7 +17,7 @@ function ItemFilterConfig({ onClose }) {
 
   return (
     <Offcanvas onHide={onClose} show={true} placement="bottom" className="p-3">
-      <h3 className="mt-3">Filter</h3>
+      <h3 className="mt-3">{t("detail.filter")}</h3>
       <ButtonGroup>
         <Button
           variant={filter?.checked ? "primary" : "secondary"}
@@ -23,7 +25,7 @@ function ItemFilterConfig({ onClose }) {
             handlerMap?.handleFilterChange("checked", !filter?.checked)
           }
         >
-          Checked
+          {t("detail.checked")}
         </Button>
         <Button
           variant={filter?.unchecked ? "primary" : "secondary"}
@@ -31,7 +33,7 @@ function ItemFilterConfig({ onClose }) {
             handlerMap?.handleFilterChange("unchecked", !filter?.unchecked)
           }
         >
-          Unchecked
+          {t("detail.unchecked")}
         </Button>
       </ButtonGroup>
     </Offcanvas>

@@ -21,12 +21,16 @@ import ItemCounter from "./ItemCounter";
 import { mdiCog } from "@mdi/js";
 import UserProfile from "../userProfile";
 
+import { useTranslation } from "react-i18next";
+
 function ListDetailContent() {
   const { state, data, filter, curUserName } = useContext(listDetailContext);
   const [showConfig, setShowConfig] = useState(false);
   const [showFilterConfig, setShowFilterConfig] = useState(false);
   const [itemFormData, setItemFormData] = useState();
   const [itemFormDeleteData, setItemFormDeleteData] = useState();
+
+  const [t, i18n] = useTranslation();
 
   return (
     <Container>
@@ -100,7 +104,7 @@ function ListDetailContent() {
                 disabled={state === "pending"}
                 onClick={() => setItemFormData({})}
               >
-                Create new note
+                {t("detail.create_new_note")}
               </Button>
             </Col>
 
@@ -114,7 +118,7 @@ function ListDetailContent() {
       {/* no item is created yet */}
       {state === "ready" && data?.itemList?.length === 0 ? (
         <Row>
-          <p>There are no items yet...</p>
+          <p>{t("detail.no_items_msg")}</p>
           <Col sm="12" className="my-2">
             <Button
               variant="success"
@@ -122,7 +126,7 @@ function ListDetailContent() {
               disabled={state === "pending"}
               onClick={() => setItemFormData({})}
             >
-              Create new note
+              {t("detail.create_new_note")}
             </Button>
           </Col>
         </Row>
@@ -131,7 +135,7 @@ function ListDetailContent() {
       {/* error state - incorrect listID*/}
       {state === "error" && data === null ? (
         <Row>
-          <p>404 Oops.... This page does not exist </p>
+          <p>{t("detail.404_msg")}</p>
         </Row>
       ) : null}
     </Container>

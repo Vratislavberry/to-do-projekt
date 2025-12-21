@@ -17,5 +17,29 @@
     "list": "list",
     "create": "Create"
   },
-  "detail": {}
+  "detail": {
+    "filter": "Filter",
+    "checked": "Checked",
+    "unchecked": "Unchecked",
+    "update": "Update",
+    "add": "Add",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "item": "Item",
+    "title": "Title",
+    "create": "Create",
+    "item_delete_msg": "Do you really want to delete item",
+    "list_settings": "List settings",
+    "owner": "Owner",
+    "you": "you",
+    "404_msg": "404 Oops.... This page does not exist ",
+    "no_items_msg": "There are no items yet...",
+    "create_new_note": "Create new note",
+    "submit": "Submit",
+    "update_title_msg": "Are you sure you want to change title to",
+    "members": "Members",
+    "remove": "Remove",
+    "remove_member_msg": "Are you sure you want to remove member",
+    "no_users_msg": "No users available"
+  }
 }

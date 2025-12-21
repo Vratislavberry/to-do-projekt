@@ -2,8 +2,12 @@ import { useContext } from "react";
 import { listDetailContext } from "./listDetailProvider";
 import { Form, Col, Button } from "react-bootstrap";
 
+import { useTranslation } from "react-i18next";
+
 function ListTitleForm() {
   const { state, data, handlerMap } = useContext(listDetailContext);
+
+  const [t, i18n] = useTranslation();
 
   return (
     <Form
@@ -22,7 +26,7 @@ function ListTitleForm() {
 
         if (
           !confirm(
-            `Are you sure you want to change title to "${values.title}"?`
+            `${t("detail.update_title_msg")} "${values.title}"?`
           )
         ) {
           return;
@@ -34,7 +38,7 @@ function ListTitleForm() {
       className="my-3"
     >
       <Form.Group className="mb-3" controlId="listTitle">
-        <Form.Label>Title</Form.Label>
+        <Form.Label>{t("detail.title")}</Form.Label>
         <Form.Control
           type="text"
           placeholder={data?.title}
@@ -43,7 +47,7 @@ function ListTitleForm() {
         />
       </Form.Group>
       <Button variant="primary" type="submit">
-        Submit
+        {t("detail.submit")}
       </Button>
     </Form>
   );
