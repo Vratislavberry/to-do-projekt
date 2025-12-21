@@ -23,7 +23,9 @@ function ThemeToggle() {
   return (
     <>
       <Form>
-        <Form.Check // prettier-ignore
+        <Form.Check
+          style={{textAlign: "left"}}
+          className="mx-2"
           type="switch"
           id="custom-switch"
           label={t("dashboard.theme_msg")}

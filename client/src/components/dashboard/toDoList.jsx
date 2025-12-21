@@ -24,7 +24,9 @@ function ToDoList({
 
   return (
     <Col
-      sm="4"
+      xs="12"
+      sm="6"
+      md="4"
       className="d-flex justify-content-center text-center my-2 mx-sm-0"
     >
       <Card
