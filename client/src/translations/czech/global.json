@@ -15,7 +15,9 @@
     "close": "Zavřít",
     "title": "Název",
     "list": "seznam",
-    "create": "Vytvořit"
+    "create": "Vytvořit",
+    "theme_msg": "Světlý / Tmavý motiv"
+
   },
   "detail": {
     "filter": "Filtr",

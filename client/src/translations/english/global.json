@@ -15,7 +15,8 @@
     "close": "Close",
     "title": "Title",
     "list": "list",
-    "create": "Create"
+    "create": "Create",
+    "theme_msg": "Light / Dark Theme"
   },
   "detail": {
     "filter": "Filter",
