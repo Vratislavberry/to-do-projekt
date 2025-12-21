@@ -9,8 +9,8 @@ function LngSwitch() {
   const [t, i18n] = useTranslation();
 
   const languages = [
-    { code: "en", label: "English", flag: "/flags/en.png" },
-    { code: "cz", label: "Čeština", flag: "/flags/cz.png" },
+    { code: "en", label: "English", flag: `${process.env.PUBLIC_URL}/flags/en_small.png` },
+    { code: "cz", label: "Čeština", flag: `${process.env.PUBLIC_URL}/flags/cz_small.png` },
   ];
   const currentLang = i18next.language;
   const current = languages.find((l) => l.code === currentLang) || languages[0];
